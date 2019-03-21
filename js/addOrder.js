@@ -25,6 +25,8 @@ layui.use(['form','layer','laydate'], function(){
       min_number:0,
       serviceList:[],
       current_service:{},
+      totalPage:0,
+      currentPage:1,
       addInfo:{
         category_id:'',
         street_id:'',
@@ -47,6 +49,28 @@ layui.use(['form','layer','laydate'], function(){
     },
     domEvent:function () {
       var _top = this;
+
+      //上一页
+      $(document).on('click','#last',function () {
+        if(_top.infor.currentPage == 1){
+          return
+        }else{
+          layer.closeAll();
+          _top.infor.currentPage = _top.infor.currentPage-1;
+          _top.ajaxDo.serviceOne(0,_top.infor.currentPage)
+        }
+      });
+
+      //下一页
+      $(document).on('click','#next',function () {
+        if(_top.infor.currentPage == _top.infor.totalPage){
+          return
+        }else{
+          layer.closeAll();
+          _top.infor.currentPage = _top.infor.currentPage+1;
+          _top.ajaxDo.serviceOne(0,_top.infor.currentPage)
+        }
+      });
       //监听提交
       form.on('submit(formDemo)', function(data){
         layer.msg(JSON.stringify(data.field));
@@ -197,7 +221,8 @@ layui.use(['form','layer','laydate'], function(){
 
       //详细地址
       $('#address').on('change',function () {
-        _top.infor.addInfo.address = $(this).val();
+        console.log($(this).val())
+        _top.infor.addInfo.street_id = $(this).val();
       });
 
       //新增地址按钮
@@ -281,33 +306,26 @@ layui.use(['form','layer','laydate'], function(){
         });
       });
 
+      //取消
+      $(document).on('click','#cancel',function () {
+        layer.closeAll();
+      });
+      //确认
+      $(document).on('click','#sure',function () {
+        var index = $("#serviceBody input[type='radio']:checked").val();
+        if(index>-1){
+          _top.ajaxDo.delTable(_top.infor.serviceList[index]);
+          layer.closeAll()
+        }else{
+          layer.closeAll()
+        }
+      })
+
       //手动选择的弹窗
       $('.chooseService').on('click',function (e) {
         e.stopPropagation();
-        var content = $('#chooseLayer')[0].innerHTML;
-        layer.open({
-          type: 1,
-          title:'手动选择',
-          area: ['800px', '500px'],
-          content: content, //这里content是一个普通的String
-          success:function (e) {
-            _top.ajaxDo.serviceOne();
-            //取消
-            $('#cancel').on('click',function () {
-              layer.closeAll();
-            });
-            //确认
-            $('#sure').on('click',function () {
-              var index = $("#serviceBody input[type='radio']:checked").val();
-              if(index>-1){
-                _top.ajaxDo.delTable(_top.infor.serviceList[index]);
-                layer.closeAll()
-              }else{
-                layer.closeAll()
-              }
-            })
-          }
-        });
+        _top.ajaxDo.serviceOne();
+
       });
     },
     ajaxDo:{
@@ -319,9 +337,9 @@ layui.use(['form','layer','laydate'], function(){
           events.infor.addressArr = addr;
           events.infor.user = _data;
           if(addr.length>0){
-            var str = '';
+            var str = '<option></option>';
             $.each(addr,function (i, v) {
-              str += '<option value="'+v.id+'">'+v.username+' '+v.tel+' '+v.full_address+'</option>'
+              str += '<option value="'+v.street_id+'">'+v.username+' '+v.tel+' '+v.full_address+'</option>'
             });
             $('#street_id').html(str);
             form.render('select');
@@ -398,6 +416,8 @@ layui.use(['form','layer','laydate'], function(){
           _hw.serviceList(data,function(res){
             var list = res.data.list,str = '';
             events.infor.serviceList = list;
+            events.infor.totalPage = res.data.totalPage;
+            console.log(list);
             if(list.length>0){
               $.each(list,function (i, v) {
                 str += '<tr>\n' +
@@ -412,12 +432,22 @@ layui.use(['form','layer','laydate'], function(){
                   '        <td>'+v.store_name+'</td>\n' +
                   // '        <td>暂无</td>\n' +
                   '      </tr>'
+
               });
             }else{
               str = '<tr><td colspan="4" class="t_a">暂无数据</td></tr>'
             }
             $('#serviceBody').html(str);
-            layui.use(['laypage', 'layer'], function(){
+            var content = $('#chooseLayer')[0].innerHTML;
+            layer.open({
+              type: 1,
+              title:'手动选择',
+              area: ['800px', '500px'],
+              content: content, //这里content是一个普通的String
+              success:function (e) {
+              }
+            });
+            /*layui.use(['laypage', 'layer'], function(){
               var laypage = layui.laypage;
               laypage({
                 cont: 'pages',
@@ -429,7 +459,7 @@ layui.use(['form','layer','laydate'], function(){
                   }
                 }
               });
-            });
+            });*/
           },function(errMsg){});
 
         }

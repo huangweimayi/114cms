@@ -137,7 +137,7 @@
                 <input type="hidden" name="star">
             </div> -->
             <!-- <form name="form" method="post" action="" class="m_t20 m_b20 T-a"> -->
-            <div class="m_t20 m_b20 T-a">
+            <div class="m_t20 T-a">
                 <!-- <div class="m_t20 m_b20">
                     <div class="eval-star_o m_b20">服务人员是否按时上门？</div>
                     <input type="radio" name="radio" value="按时上门" class="v_a" />&nbsp;&nbsp;按时上门
@@ -156,8 +156,10 @@
                     <input type="radio" name="radio" value="满意" class="v_a" />&nbsp;&nbsp;满意
                     <input type="radio" name="radio" value="不满意" class="v_a m_l_24" />&nbsp;&nbsp;不满意
                 </div> -->
+                <div class="m_b30">
                 <textarea name="desc" placeholder="请填写用户的不满意内容" class="w_290 h_100" id="textarea"></textarea>
-                <button class="layui-btn" class="sbmit m_t20" id="sbmit_two">提交</button>
+            </div>
+                <button class="layui-btn" class="sbmit" id="sbmit_two">提交</button>
                 <!-- </form> -->
             </div>
         </div>
@@ -363,8 +365,10 @@
         //     half: true
         // });
         //点击弹出框提交按钮
-        $('#sbmit_two').click(function () {
+        
+            $('#sbmit_two').click(function () {
             var textVal = $('#textarea').val();
+            if($('#textarea').val()){
             var data = {
                 id: reVisitId,
                 content: textVal
@@ -378,7 +382,10 @@
                 $('#visit').css('display', 'none');
                 $('#opsitio').css('display', 'none');
             })
+        }
          })
+       
+ 
         //设置input,textarea默认值
         var placeholder = function () {
             if (!('placeholder' in document.createElement('input'))) {
