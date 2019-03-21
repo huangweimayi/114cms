@@ -12,7 +12,7 @@ var severId
 var severNum //服务的数量
 var shop_id//店铺id
 var is_feedback
-
+var is_cancel
 // 求服务信息总和的共用函数
 function Sum() {
     $('.D_much').each(function () {
@@ -113,7 +113,6 @@ function serviceList() {
                     }
                 })
             }
-
             $('#D_FpgcsCz').append(html)
         }
         $(document).on('change', '.D_xianzhi', function () {
@@ -204,6 +203,7 @@ $(function () {
         stutes = res.data.status//判断订单状态
         shop_id = res.data.store_id
         is_feedback = res.data.is_feedback
+        is_cancel=res.data.is_cancel
         //判断回访之后的完成
         if (is_feedback == 1) {
             $('#suerBtn').addClass('D_none')
@@ -216,6 +216,7 @@ $(function () {
             //是否显示取消订单按钮
             $('#cancelBtn').addClass('D_none')
         }
+
         $('#D_img').attr('src', res.data.user_imgs)
         $('.orderlist1').text(res.data.number)//订单号
         $('.orderlist2').text(res.data.source_text)//A下单方式
@@ -262,7 +263,7 @@ $(function () {
 
         $('.orderlist11').text(res.data.user_mobile)//下单账号
         $('.orderlist22').text(res.data.service_name)//服务分类
-        var Pice = JSON.parse(res.data.request_info.price)
+        var Pice = res.data.request_info.price
         var servicePice = Pice[0] + '-' + Pice[1] + '元'
 
         $('.orderlist33').text(servicePice)//服务价格
@@ -329,11 +330,18 @@ $(function () {
         }
         //补差价服务
         var chajia = res.data.detail
+
         var chajiaNum = 0
         for (var i = 0; i < chajia.length; i++) {
+            var isPart
+                if(chajia[i].is_parts==1){
+                    isPart='配件'
+                }else {
+                    isPart='服务'
+                }
             var html = ' <tr>\n' +
                 '                    <td>' + chajia[i].name + '</td>\n' +
-                '                    <td> ' + chajia[i].is_parts + '</td>\n' +
+                '                    <td> ' + isPart + '</td>\n' +
                 '                    <td>' + chajia[i].price + '</td>\n' +
                 '                </tr>'
             $('#D_Bchajia').append(html)
@@ -344,10 +352,15 @@ $(function () {
         // 判断进来是哪个页面
         switch (String(stutes)) {
             case'20':
-                $('#D_Bcj').removeClass('D_none')
-                $('#cancelBtn').removeClass('D_none')
-                $('#suerBtn').removeClass('D_none')
-                $('#suerBtn').html('手动重选服务')
+                if(is_cancel==1){
+                    $("#oneBtn").addClass('D_none')
+                    $("#twoBtn").addClass('D_none')
+                }else {
+                    $('#D_Bcj').removeClass('D_none')
+                    $('#cancelBtn').removeClass('D_none')
+                    $('#suerBtn').removeClass('D_none')
+                    $('#suerBtn').html('手动重选服务')
+                }
                 break;
             case '40':
                 //待商家指派
@@ -565,7 +578,10 @@ $('#D_EngineerCz').bind('click', function () {
     $('#D_Cz').addClass('D_none')
     $('#D_FpgcsCz').empty()
 })
-
+$('#D_XCanle').bind('click', function () {
+    $('#D_Cz').addClass('D_none')
+    $('#D_FpgcsCz').empty()
+})
 // 这里是在修改服务的值 // 获取被选中的的服务的值
 $('#CzBtn').bind('click', function () {
     if (String(stutes) == '20') {
@@ -629,8 +645,10 @@ $('#suerBtn').bind('click', function () {
 
     switch (String(stutes)) {
         case '20':
-            serviceList()
-            $('#D_Cz').removeClass('D_none')
+
+                serviceList()
+                $('#D_Cz').removeClass('D_none')
+
             break;
         case '30':
             // 确认订单/**/
@@ -742,11 +760,19 @@ $('#D_FwBtn').bind('click', function () {
         '                                <span class="isPeijian">配件</span>\n' +
         '                            </td>\n' +
         '                            <td><input class="D_Ipt" type="text"></td>\n' +
-        '                            <td><input class="D_Ipt" type="text"></td>\n' +
+        '                            <td><input class="D_Ipt D_IptOne" type="text"></td>\n' +
         '                            <td><i class="D_IconFw layui-icon ">&#x1006;</i></td>\n' +
         '                        </tr>'
 
     $('#D_addTable').append(html)
+    $('.D_IptOne').each(function () {
+        $(this).keyup(function () {
+            $(this).val($(this).val().replace(/[^0-9]/g, ''));
+        }).bind("paste", function () {
+            $(this).val($(this).val().replace(/[^0-9]/g, ''));
+
+        })
+    })
 })
 
 $('#D_addTable').on('click', '.D_FwCheck', function () {

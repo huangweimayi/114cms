@@ -140,6 +140,9 @@
     margin-top: 10%;
     padding-bottom: 20px;
 }
+.D_cetOne{
+    margin-top: 0px;
+}
 .D_cet1{
     width: 616px;
 }
@@ -214,6 +217,7 @@
     border: none;
     outline: none;
     background: rgba(255, 255, 255, 0);
+    text-align: center;
 }
 .D_IconFw{
     cursor: pointer;
@@ -356,7 +360,23 @@ select{
     text-align: center;
 }
 #D_chooseCz{
-    height: 600px;
+    height: 450px;
     overflow-y:auto;
 }
-
+#D_qD{
+    background: white;
+    padding: 20px 0px;
+    width: 1000px;
+    margin: auto;
+}
+.D_bjOne{
+    width: 1000px;
+    margin: auto;
+    margin-top: 10%;
+}
+#D_addTable{
+    text-align: center;
+}
+#D_fwCao{
+    margin-top: 20px;
+ }
