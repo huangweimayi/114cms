@@ -195,43 +195,113 @@ var orderDetail = {
     });
   },
 // 分配服务人员
-  toProvider: function (data, resolve, reject) {
-    _mm.request({
-      url: _mm.getServerUrl('/manage114/order/to-provider'),
-      data: JSON.stringify(data),
-      method: 'POST',
-      success: resolve,
-      error: reject
-    });
-  },
-  // 修改备注
-  remark:function (data, resolve, reject) {
-    _mm.request({
-      url: _mm.getServerUrl('/manage114/order/remark'),
-      data: JSON.stringify(data),
-      method: 'POST',
-      success: resolve,
-      error: reject
-    });
-  },
-  // 获取重选服务数据 /manage114/order/service-list
-  serviceList: function (data, resolve, reject) {
-    _mm.request({
-      url: _mm.getServerUrl('/manage114/order/service-list?' + _mm.setUrlParam(data)),
-      method: 'GET',
-      success: resolve,
-      error: reject
-    });
-  },
-  // 重新选择服务
-  hangeService:function (data, resolve, reject) {
-    _mm.request({
-      url: _mm.getServerUrl('/manage114/order/change-service'),
-      data: JSON.stringify(data),
-      method: 'POST',
-      success: resolve,
-      error: reject
-    });
-  }
+    toProvider: function (data, resolve, reject) {
+        _mm.request({
+            url: _mm.getServerUrl('/manage114/order/to-provider'),
+            data: JSON.stringify(data),
+            method: 'POST',
+            success: resolve,
+            error: reject
+        });
+    },
+    // 修改备注
+    remark:function (data, resolve, reject) {
+        _mm.request({
+            url: _mm.getServerUrl('/manage114/order/remark'),
+            data: JSON.stringify(data),
+            method: 'POST',
+            success: resolve,
+            error: reject
+        });
+    },
+    // 获取重选服务数据 /manage114/order/service-list
+    serviceList: function (data, resolve, reject) {
+        _mm.request({
+            url: _mm.getServerUrl('/manage114/order/service-list?' + _mm.setUrlParam(data)),
+            method: 'GET',
+            success: resolve,
+            error: reject
+        });
+    },
+    // 重新选择服务
+    hangeService:function (data, resolve, reject) {
+        _mm.request({
+            url: _mm.getServerUrl('/manage114/order/change-service'),
+            data: JSON.stringify(data),
+            method: 'POST',
+            success: resolve,
+            error: reject
+        });
+    },
+    //确认出发
+    depart:function (data, resolve, reject) {
+        _mm.request({
+            url: _mm.getServerUrl('/manage114/order/depart'),
+            data: JSON.stringify(data),
+            method: 'POST',
+            success: resolve,
+            error: reject
+        });
+    },
+    // 确认到达 /manage114/order/arrive
+    Arrive:function (data, resolve, reject) {
+        _mm.request({
+            url: _mm.getServerUrl('/manage114/order/arrive'),
+            data: JSON.stringify(data),
+            method: 'POST',
+            success: resolve,
+            error: reject
+        });
+    },
+    //开始服务 /manage114/order/start
+    start: function(data, resolve, reject){
+        _mm.request({
+            url: _mm.getServerUrl('/manage114/order/start'),
+            data: JSON.stringify(data),
+            method: 'POST',
+            success: resolve,
+            error: reject
+        });
+    },
+    //结束服务 /manage114/order/finish
+    finish:function(data, resolve, reject){
+        _mm.request({
+            url: _mm.getServerUrl('/manage114/order/finish'),
+            data: JSON.stringify(data),
+            method: 'POST',
+            success: resolve,
+            error: reject
+        });
+    },
+    // 补差价服务  /manage114/order/pay-detail
+    payDetail: function(data, resolve, reject){
+        _mm.request({
+            url: _mm.getServerUrl('/manage114/order/pay-detail'),
+            data: JSON.stringify(data),
+            method: 'POST',
+            success: resolve,
+            error: reject
+        });
+    },
+    // 确认回访 /manage114/order/feedback
+    feedback: function(data, resolve, reject){
+        _mm.request({
+            url: _mm.getServerUrl('/manage114/order/feedback'),
+            data: JSON.stringify(data),
+            method: 'POST',
+            success: resolve,
+            error: reject
+        });
+    },
+    // 取消订单 /manage114/order/cancel
+    cancel:function (data, resolve, reject) {
+        _mm.request({
+            url: _mm.getServerUrl('/manage114/order/cancel'),
+            data: JSON.stringify(data),
+            method: 'POST',
+            success: resolve,
+            error: reject
+        });
+    }
 }
 
