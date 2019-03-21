@@ -312,7 +312,7 @@ layui.use(['form','layer','laydate'], function(){
       });
       //确认
       $(document).on('click','#sure',function () {
-        var index = $("#serviceBody input[type='radio']:checked").val();
+        var index = $("#serviceBody input:checked[type='radio']").val();
         if(index>-1){
           _top.ajaxDo.delTable(_top.infor.serviceList[index]);
           layer.closeAll()
