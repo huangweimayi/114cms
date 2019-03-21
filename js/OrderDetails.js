@@ -216,8 +216,6 @@ $(function () {
             //是否显示取消订单按钮
             $('#cancelBtn').addClass('D_none')
         }
-
-
         $('#D_img').attr('src', res.data.user_imgs)
         $('.orderlist1').text(res.data.number)//订单号
         $('.orderlist2').text(res.data.source_text)//A下单方式
@@ -350,7 +348,6 @@ $(function () {
                 $('#cancelBtn').removeClass('D_none')
                 $('#suerBtn').removeClass('D_none')
                 $('#suerBtn').html('手动重选服务')
-                // $('#D_Ycover').removeClass('D_none')
                 break;
             case '40':
                 //待商家指派
@@ -419,7 +416,6 @@ $(function () {
                 $('#D_Bcj').removeClass('D_none')
                 break;
             default:
-
                 //待商家接单
                 $('#D_Qd').addClass('D_none')
                 $('#oneBtn').removeClass('D_none')
