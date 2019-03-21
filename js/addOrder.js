@@ -28,6 +28,7 @@ layui.use(['form','layer','laydate'], function(){
       totalPage:0,
       currentPage:1,
       addInfo:{
+        address_id:'',
         category_id:'',
         street_id:'',
         user_mobile:'',
@@ -221,13 +222,14 @@ layui.use(['form','layer','laydate'], function(){
 
       //详细地址
       $('#address').on('change',function () {
-        console.log($(this).val())
         _top.infor.addInfo.street_id = $(this).val();
       });
 
       //新增地址按钮
       $('#addAddr').on('click',function () {
         $('#isHasUser').show();
+        _top.ajaxDo.addressSelect(_top.infor.user.address);
+        _top.infor.addInfo.address_id = '';
         _top.ajaxDo.areaList($('#city1'))
       });
 
@@ -243,7 +245,8 @@ layui.use(['form','layer','laydate'], function(){
 
       //服务地址
       form.on('select(street_id)', function(data){
-        _top.infor.addInfo.street_id = data.value;
+        _top.infor.addInfo.address_id = data.value;
+        $('#isHasUser').hide();
       });
 
       //服务城市change
@@ -333,6 +336,15 @@ layui.use(['form','layer','laydate'], function(){
       });
     },
     ajaxDo:{
+      //渲染 服务地址下拉框
+      addressSelect:function(addr){
+        var str = '<option></option>';
+        $.each(addr,function (i, v) {
+          str += '<option value="'+v.id+'">'+v.username+' '+v.tel+' '+v.full_address+'</option>'
+        });
+        $('#street_id').html(str);
+        form.render('select');
+      },
       //获取用户信息
       userInfo:function(mobile){
         _hw.userInfo({mobile:mobile},function(res){
@@ -341,12 +353,7 @@ layui.use(['form','layer','laydate'], function(){
           events.infor.addressArr = addr;
           events.infor.user = _data;
           if(addr.length>0){
-            var str = '<option></option>';
-            $.each(addr,function (i, v) {
-              str += '<option value="'+v.street_id+'">'+v.username+' '+v.tel+' '+v.full_address+'</option>'
-            });
-            $('#street_id').html(str);
-            form.render('select');
+            events.ajaxDo.addressSelect(addr);
             $('#isHasUser').hide()
           }else{
             $('#isHasUser').show();
