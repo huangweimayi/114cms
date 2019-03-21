@@ -403,8 +403,8 @@ layui.use(['form','layer','laydate'], function(){
       //获取服务
       serviceOne:function (isOne,page) {
         var data = {
-          min_price:events.infor.addInfo.price[0],
-          max_price:events.infor.addInfo.price[1],
+          min_price:events.infor.addInfo.price.length>0?events.infor.addInfo.price[0]:0,
+          max_price:events.infor.addInfo.price.length>0?events.infor.addInfo.price[1]:0,
           category:events.infor.addInfo.category_id,
           type:events.infor.addInfo.type,
           keyword:events.infor.addInfo.service_keyword,
