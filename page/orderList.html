@@ -242,6 +242,8 @@
                 $('#tbody').html(list);
                 //点击回访
                 $('.reVisit').on('click', (function (e) {
+                    $('#textarea').val('');
+                    placeholder();
                     reVisitId = e.target.id
                     $('#visit').css('display', 'block');
                     $('#opsitio').css('display', 'block');

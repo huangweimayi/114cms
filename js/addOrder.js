@@ -310,11 +310,15 @@ layui.use(['form','layer','laydate'], function(){
       $(document).on('click','#cancel',function () {
         layer.closeAll();
       });
+
       //确认
       $(document).on('click','#sure',function () {
-        var index = $("#serviceBody input:checked[type='radio']").val();
+        var _t = $(this);
+        var index = _t.parents('.c_l_out').find('#serviceBody').find("input:checked[name='which']").val();
+        console.log(index)
+        // var index = $("#serviceBody input:checked[name='which']").val();
         if(index>-1){
-          _top.ajaxDo.delTable(_top.infor.serviceList[index]);
+          events.ajaxDo.delTable(events.infor.serviceList[index]);
           layer.closeAll()
         }else{
           layer.closeAll()
@@ -417,13 +421,12 @@ layui.use(['form','layer','laydate'], function(){
             var list = res.data.list,str = '';
             events.infor.serviceList = list;
             events.infor.totalPage = res.data.totalPage;
-            console.log(list);
             if(list.length>0){
               $.each(list,function (i, v) {
                 str += '<tr>\n' +
                   '        <td>\n' +
                   '          <label>\n' +
-                  '            <input type="radio" name="which" value="'+i+'">\n' +
+                  '            <input type="radio" class="which" name="which" value="'+i+'">\n' +
                   '            单选\n' +
                   '          </label>\n' +
                   '        </td>\n' +
