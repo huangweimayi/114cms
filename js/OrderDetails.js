@@ -13,6 +13,8 @@ var severNum //服务的数量
 var shop_id//店铺id
 var is_feedback
 var is_cancel
+var area_id //地址id
+var category
 // 求服务信息总和的共用函数
 function Sum() {
     $('.D_much').each(function () {
@@ -29,6 +31,7 @@ function Sum() {
     $('.D_sum').html(sumHtml)
     numArr = []
     numArr1 = []
+
 }
 
 // 选择服务时复选变单选
@@ -69,10 +72,20 @@ function select() {
         }
     });
 }
-
+function moBan(res) {
+    var html = ' <tr>\n' +
+        '                    <td>' + res.data.service.name + '</td>\n' +
+        '                    <td>' + res.data.service.category_text + '</td>\n' +
+        '                    <td>' + res.data.service.dispose + '</td>\n' +
+        '                    <td class="D_much">￥' + res.data.service.unit_price + '</td>\n' +
+        '                    <td class="D_num">' + res.data.service.quantity + '</td>\n' +
+        '                </tr>'
+    $('#D_addChild').append(html)
+    Sum()
+}
 // 初始化服务弹框信息
-function serviceList() {
-    orderDetail.serviceList(serviceList, function (res) {
+function serviceList(List) {
+    orderDetail.serviceList(List, function (res) {
         FpgcsCz = res.data.list
         for (var i = 0; i < FpgcsCz.length; i++) {
             if (!FpgcsCz[i].sku_list) {
@@ -204,6 +217,8 @@ $(function () {
         shop_id = res.data.store_id
         is_feedback = res.data.is_feedback
         is_cancel=res.data.is_cancel
+        area_id=res.data.area_id
+        category=res.data.request_info.category
         //判断回访之后的完成
         if (is_feedback == 1) {
             $('#suerBtn').addClass('D_none')
@@ -215,6 +230,9 @@ $(function () {
             $('#suerBtn').addClass('D_none')
             //是否显示取消订单按钮
             $('#cancelBtn').addClass('D_none')
+            $("#oneBtn").addClass('D_none')
+            $("#twoBtn").addClass('D_none')
+
         }
 
         $('#D_img').attr('src', res.data.user_imgs)
@@ -262,14 +280,14 @@ $(function () {
         $('.orderlist8').text(res.data.pay_type_text)//支付方式
 
         $('.orderlist11').text(res.data.user_mobile)//下单账号
-        $('.orderlist22').text(res.data.service_name)//服务分类
+        $('.orderlist22').text(res.data.service.category_text)//服务分类
         var Pice = res.data.request_info.price
         var servicePice = Pice[0] + '-' + Pice[1] + '元'
 
         $('.orderlist33').text(servicePice)//服务价格
         $('.orderlist44').text(res.data.user_remark)//服务备注
         $('.orderlist66').text(res.data.price_type_text)//价格类型
-        $('.orderlist77').text(res.data.service_name)//服务内容
+        $('.orderlist77').text(res.data.service.name)//服务内容
 
         //获取用户地址class
         $('.D_name1').text(res.data.contact_name)//联系人
@@ -282,30 +300,28 @@ $(function () {
         $('.D_People2').text(res.data.provider_mobile)//商家联系人
         // 服务信息
         // 服务信息遍历新增不带操作的
-        if (Number(stutes) == 30) {
-            // 手动操作服务遍历操作数据i
-            var html = '  <tr>\n' +
-                '                    <td>' + res.data.service.name + '</td>\n' +
-                '                    <td>' + res.data.service.category_text + '</td>\n' +
-                '                    <td>' + res.data.service.dispose + '</td>\n' +
-                '                    <td class="D_much">￥' + res.data.service.unit_price + '</td>\n' +
-                '                    <td class="D_num">' + res.data.service.quantity + '</td>\n' +
-                '                    <td class="D_CBtn">手动选择</td>\n' +
-                '                </tr>'
-            $('#D_addChildCao').append(html)
-            Sum()
+        if(is_cancel!=1) {
+            if (Number(stutes) == 30 || Number(stutes) == 20 && is_cancel != 1) {
+                // 手动操作服务遍历操作数据i
+                var html = '  <tr>\n' +
+                    '                    <td>' + res.data.service.name + '</td>\n' +
+                    '                    <td>' + res.data.service.category_text + '</td>\n' +
+                    '                    <td>' + res.data.service.dispose + '</td>\n' +
+                    '                    <td class="D_much">￥' + res.data.service.unit_price + '</td>\n' +
+                    '                    <td class="D_num">' + res.data.service.quantity + '</td>\n' +
+                    '                    <td class="D_CBtn">手动选择</td>\n' +
+                    '                </tr>'
+                $('#D_addChildCao').append(html)
+                Sum()
+            }else {
+                var mobanData=
+                moBan(res)
+            }
         }
-        else {
-            var html = ' <tr>\n' +
-                '                    <td>' + res.data.service.name + '</td>\n' +
-                '                    <td>' + res.data.service.category_text + '</td>\n' +
-                '                    <td>' + res.data.service.dispose + '</td>\n' +
-                '                    <td class="D_much">￥' + res.data.service.unit_price + '</td>\n' +
-                '                    <td class="D_num">' + res.data.service.quantity + '</td>\n' +
-                '                </tr>'
-            $('#D_addChild').append(html)
-            Sum()
-        }
+            else {
+            moBan(res)
+            }
+
         // 财务信息
         $('.D_caiwu1').text(res.data.service_amount)//服务金额
         $('.D_caiwu2').text(res.data.coupon_amount)//优惠券
@@ -356,7 +372,9 @@ $(function () {
                     $("#oneBtn").addClass('D_none')
                     $("#twoBtn").addClass('D_none')
                 }else {
-                    $('#D_Bcj').removeClass('D_none')
+                    $('#D_FwOne').addClass('D_none')
+                    $('#D_FwTwo').removeClass('D_none')
+
                     $('#cancelBtn').removeClass('D_none')
                     $('#suerBtn').removeClass('D_none')
                     $('#suerBtn').html('手动重选服务')
@@ -430,11 +448,17 @@ $(function () {
                 break;
             default:
                 //待商家接单
-                $('#D_Qd').addClass('D_none')
-                $('#oneBtn').removeClass('D_none')
-                $('#twoBtn').removeClass('D_none')
-                $('#D_FwOne').addClass('D_none')
-                $('#D_FwTwo').removeClass('D_none')
+                if(is_cancel==1){
+                    $('#D_FwOne').removeClass('D_none')
+                    $('#D_FwTwo'). addClass('D_none')
+                }else {
+                    $('#D_Qd').addClass('D_none')
+                    $('#oneBtn').removeClass('D_none')
+                    $('#twoBtn').removeClass('D_none')
+                    $('#D_FwOne').addClass('D_none')
+                    $('#D_FwTwo').removeClass('D_none')
+                }
+
                 break
         }
     }, function (err) {
@@ -568,7 +592,13 @@ $('#I_con1').bind('click', function () {
 var that //存储当前的this
 $('#D_addChildCao').on('click', '.D_CBtn', function () {
     $('#D_Cz').removeClass('D_none')
-    serviceList()
+
+    var List={
+        street_id:area_id,
+        category:category
+    }
+    serviceList(List)
+    // serviceList()
     // 选择服务时复选变单选
     $("input[name='SingleCz']").prop("checked", false);//初始化每次点击input的checked的值
     that = this
@@ -608,7 +638,6 @@ $('#CzBtn').bind('click', function () {
             quantity: severNum,
             sku_id: checkBoxId
         }
-
         orderDetail.hangeService(hangeServiceData, function (res) {
             $(that).siblings().each(function (index) {
                 if (index == SingleCzArr.length - 2) {
@@ -622,7 +651,7 @@ $('#CzBtn').bind('click', function () {
             SingleCzArr = []
             $('#D_FpgcsCz').empty()
         }, function (err) {
-
+            tipMsg('不能更改商品')
             $('#D_Cz').addClass('D_none')
             $('#D_FpgcsCz').empty()
         })
@@ -645,7 +674,6 @@ $('#suerBtn').bind('click', function () {
 
     switch (String(stutes)) {
         case '20':
-
                 serviceList()
                 $('#D_Cz').removeClass('D_none')
 

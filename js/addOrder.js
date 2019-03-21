@@ -27,6 +27,7 @@ layui.use(['form','layer','laydate'], function(){
       current_service:{},
       totalPage:0,
       currentPage:1,
+      servicePrice:[],
       addInfo:{
         address_id:'',
         category_id:'',
@@ -222,7 +223,7 @@ layui.use(['form','layer','laydate'], function(){
 
       //详细地址
       $('#address').on('change',function () {
-        _top.infor.addInfo.street_id = $(this).val();
+        _top.infor.addInfo.address = $(this).val();
       });
 
       //新增地址按钮
@@ -240,7 +241,7 @@ layui.use(['form','layer','laydate'], function(){
 
       //改变价格
       form.on('select(price)', function(data){
-        _top.infor.addInfo.price = priceArr[data.value];
+        _top.infor.servicePrice = priceArr[data.value];
       });
 
       //服务地址
@@ -318,7 +319,6 @@ layui.use(['form','layer','laydate'], function(){
       $(document).on('click','#sure',function () {
         var _t = $(this);
         var index = _t.parents('.c_l_out').find('#serviceBody').find("input:checked[name='which']").val();
-        console.log(index)
         // var index = $("#serviceBody input:checked[name='which']").val();
         if(index>-1){
           events.ajaxDo.delTable(events.infor.serviceList[index]);
@@ -403,8 +403,8 @@ layui.use(['form','layer','laydate'], function(){
       //获取服务
       serviceOne:function (isOne,page) {
         var data = {
-          min_price:events.infor.addInfo.price.length>0?events.infor.addInfo.price[0]:0,
-          max_price:events.infor.addInfo.price.length>0?events.infor.addInfo.price[1]:0,
+          min_price:events.infor.servicePrice.length>0?events.infor.servicePrice[0]:'',
+          max_price:events.infor.servicePrice.length>0?events.infor.servicePrice[1]:'',
           category:events.infor.addInfo.category_id,
           type:events.infor.addInfo.type,
           keyword:events.infor.addInfo.service_keyword,

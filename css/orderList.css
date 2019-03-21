@@ -112,7 +112,7 @@ margin-top:7px;
 .w_h_500{
     width: 336px;
     height: 266px;
-    position: absolute;
+    position: fixed;
     top:50%;
     margin-top:-205px;
     left:50%;
@@ -126,7 +126,7 @@ margin-top:7px;
 background-color: #B3B3B3;
 opacity: 0.5;
 filter:alpha(opacity=50); 
-position:absolute;
+position:fixed;
 top:0;
 }
 .text_r{
@@ -162,6 +162,7 @@ top:0;
 }
 .w_290{
     width: 290px;
+    height:200px;
 }
 .h_100{
 height: 100px;
@@ -185,4 +186,12 @@ height: 100px;
 .reVisit{
     margin-top:4px;
     margin-left:4px !important;
+}
+.m_auto{
+    margin: auto;
+}
+.over_y{
+   
+    overflow:auto;
+   
 }

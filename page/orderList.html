@@ -137,7 +137,7 @@
                 <input type="hidden" name="star">
             </div> -->
             <!-- <form name="form" method="post" action="" class="m_t20 m_b20 T-a"> -->
-            <div class="m_t20 T-a">
+            <div class="m_t20 m_auto T-a">
                 <!-- <div class="m_t20 m_b20">
                     <div class="eval-star_o m_b20">服务人员是否按时上门？</div>
                     <input type="radio" name="radio" value="按时上门" class="v_a" />&nbsp;&nbsp;按时上门
@@ -156,10 +156,11 @@
                     <input type="radio" name="radio" value="满意" class="v_a" />&nbsp;&nbsp;满意
                     <input type="radio" name="radio" value="不满意" class="v_a m_l_24" />&nbsp;&nbsp;不满意
                 </div> -->
-                <div class="m_b30">
-                <textarea name="desc" placeholder="请填写用户的不满意内容" class="w_290 h_100" id="textarea"></textarea>
-            </div>
-                <button class="layui-btn" class="sbmit" id="sbmit_two">提交</button>
+            <!-- <div class="m_b30"> -->
+                <!-- <textarea name="desc" placeholder="" class="w_290 h_100" id="textarea"></textarea> -->
+                <div class="w_290 m_auto over_y" id="textarea"></div>
+            <!-- </div> -->
+                <!-- <button class="layui-btn" class="sbmit" id="sbmit_two">提交</button> -->
                 <!-- </form> -->
             </div>
         </div>
@@ -217,10 +218,11 @@
             // console.log(1111111111, dataList)
             orderList.order(dataList, function (res) {
                 // console.log(res.data)
+                // res.data.list[0].feedback="是ID是否会你哦大V你否定VR诶of弄反是ID是否会你哦大V你否定VR诶of弄反是ID是否会你哦大V你否定VR诶of弄反是ID是否会你哦大V你否定VR诶of弄反是ID是否会你哦大V你否定VR诶of弄反是ID是否会你哦大V你否定VR诶of弄反是ID是否会你哦大V你否定VR诶of弄D是否会你哦大V你否定VR诶of弄反是ID是否会D是否会你哦大V你否定VR诶of弄反是ID是否会D是否会你哦大V你否定VR诶of弄反是ID是否会D是否会你哦大V你否定VR诶of弄反是ID是否会D是否会你哦大V你否定VR诶of弄反是ID是否会D是否会你哦大V你否定VR诶of弄反是ID是否会D是否会你哦大V你否定VR诶of弄反是ID是否会D是否会你哦大V你否定VR诶of弄反是ID是否会反是ID是否会你哦大V你否定VR诶of弄反是ID是否会你哦大V你否定VR诶of弄反dbsishfiu那次是ID是否会你哦大V你否定VR诶of弄反GVIE如"
                 var str = '';
                 for (var i = 0; i < res.data.list.length; i++) {
                     if (optionTab == 'cancel' || optionTab == 100) {
-                        str = '<button class="layui-btn layui-btn-normal reVisit" id=' + res.data.list[i].id + '>回访</button>';
+                        str = '<button class="layui-btn layui-btn-normal reVisit" id=' + res.data.list[i].feedback + '>回访</button>';
                     } else {
                         str = ''
                     }
@@ -242,12 +244,21 @@
                 $('#tbody').html(list);
                 //点击回访
                 $('.reVisit').on('click', (function (e) {
-                    $('#textarea').val('');
-                    placeholder();
-                    reVisitId = e.target.id
+                    if(e.target.id){
+                        $('#textarea').text(e.target.id);
+                    }else{
+                        $('#textarea').text('暂无数据');
+                    }
                     $('#visit').css('display', 'block');
                     $('#opsitio').css('display', 'block');
                 }))
+                // $('.reVisit').on('click', (function (e) {
+                //     $('#textarea').val('');
+                //     placeholder();
+                //     reVisitId = e.target.id
+                //     $('#visit').css('display', 'block');
+                //     $('#opsitio').css('display', 'block');
+                // }))
                 //点击详情
                 $('.details').on('click', (function (e) {
                     $(location).attr('href', 'OrderDetails.html?id=' + e.target.id)
@@ -368,24 +379,24 @@
         // });
         //点击弹出框提交按钮
         
-            $('#sbmit_two').click(function () {
-            var textVal = $('#textarea').val();
-            if($('#textarea').val()){
-            var data = {
-                id: reVisitId,
-                content: textVal
-            }
-            orderList.feedback(data, function (res) {
-                if (res.message == '操作成功') {
-                    layer.msg('内容提交成功~~');
-                } else {
-                    layer.msg('内容提交失败~~');
-                }
-                $('#visit').css('display', 'none');
-                $('#opsitio').css('display', 'none');
-            })
-        }
-         })
+        //     $('#sbmit_two').click(function () {
+        //     var textVal = $('#textarea').val();
+        //     if($('#textarea').val()){
+        //     var data = {
+        //         id: reVisitId,
+        //         content: textVal
+        //     }
+        //     orderList.feedback(data, function (res) {
+        //         if (res.message == '操作成功') {
+        //             layer.msg('内容提交成功~~');
+        //         } else {
+        //             layer.msg('内容提交失败~~');
+        //         }
+        //         $('#visit').css('display', 'none');
+        //         $('#opsitio').css('display', 'none');
+        //     })
+        // }
+        //  })
        
  
         //设置input,textarea默认值
