@@ -320,7 +320,7 @@
 
     </div>
     <!--弹框修改信息-->
-    <div id="D_none" class="D_fixed D_f D_none">
+    <div id="D_none" class="D_address D_back D_none">
         <div class="D_cet1">
             <div class="D_bj">
                 <span class="D_content_one">修改用户地址</span>
@@ -385,7 +385,7 @@
         </div>
     </div>
     <!--修改备注-->
-    <div id="D_none1" class="D_fixed D_f D_none">
+    <div id="D_none1" class="D_address D_back D_none D_Bei">
         <div class="D_cet1">
             <div class="D_bj">
                 <span class="D_content_one">修改订单备注</span>
@@ -411,7 +411,7 @@
         </div>
     </div>
     <!--分配工程师-->
-    <div id="Engineer" class="D_fixed D_f D_none">
+    <div id="Engineer" class="D_post D_back D_Eng D_none">
         <div class="D_cet" id="D_choose">
             <div class="D_bj">
                 <span class="D_content_one">选择工程师</span>
@@ -434,7 +434,7 @@
             </table>
             <div class="layui-form-item">
                 <div class="layui-input-block" style=" width:160px;margin: auto">
-                    <button class="layui-btn layui-btn-primary">取消</button>
+                    <button id="D_EntCancle"_ class="layui-btn layui-btn-primary">取消</button>
                     <button id="EngineerBtn" type="submit" value="Submit" class="layui-btn" lay-submit
                             lay-filter="formDemo">确认
                     </button>
@@ -443,7 +443,7 @@
         </div>
     </div>
     <!--服务信息 带操作弹框-->
-    <div id="D_Cz" class=" D_post D_none">
+    <div id="D_Cz" class=" D_post D_back D_none">
         <div class="D_bj D_bjOne">
             <span class="D_content_one">选择服务信息</span>
             <i id="D_EngineerCz" class="layui-icon D_content_two">&#x1006;</i>
@@ -478,7 +478,7 @@
         </div>
     </div>
     <!--确认完成服务弹框-->
-    <div id="over" class="D_fixed D_f D_none">
+    <div id="over" class=" D_post D_back  D_none D_Over D_Eng">
         <div class="D_cet D_cetWidth ">
             <div class="D_bj">
                 <span class="D_content_one">确认完成服务</span>
@@ -500,7 +500,7 @@
                         <th id="D_48">操作</th>
                     </tr>
                     </thead>
-                    <tbody>
+                    <tbody id="D_tBody">
 
                     </tbody>
                 </table>
@@ -521,7 +521,7 @@
                     <!--</div>-->
                 </div>
                 <div class="D_FwzfBtn">
-                    <button class="D_FwBtn">取消</button>
+                    <button id="D_FwBtnCancle" class="D_FwBtn">取消</button>
                     <button id="D_child" class="D_FwBtn D_child">确定</button>
                 </div>
             </div>
@@ -567,64 +567,6 @@
                     <!--</div>-->
                     <textarea id="D_textaer" name="desc" placeholder="请填写用户的不满意内容" class="w_290 h_60 p_l_3"></textarea>
                     <p id="D_feedback" class="sbmit">提交</p>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!--异常订单重选服务-->
-    <div id="D_Ycover" class="D_fixed D_f D_none">
-        <div class="D_cet D_cetWidth">
-            <div class="D_bj">
-                <span class="D_content_one">重选服务</span>
-                <i id="" class="layui-icon D_content_two">&#x1006;</i>
-            </div>
-            <div class="D_FwTable">
-                <table id="D_addTable1" class="layui-table">
-                    <thead>
-                    <tr>
-                        <th id="D_181">选择</th>
-                        <th id="D_281">服务名称</th>
-                        <th id="D_381">市场价</th>
-                        <th id="D_481">所属店铺</th>
-                        <th id="D_581">店铺综合评分</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr>
-                        <td>
-                            <input class="D_FwCheck" name="D_Choose" type="checkbox" value="单选" title="配件"/>
-                            <span>单选</span>
-                        </td>
-                        <td>服务名称服务名称</td>
-                        <td>138.00</td>
-                        <td>98</td>
-                        <td>5.0</td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <input class="D_FwCheck" name="D_Choose" type="checkbox" value="单选" title="配件"/>
-                            <span>单选</span>
-                        </td>
-                        <td>服务名称服务名称</td>
-                        <td>138.00</td>
-                        <td>98</td>
-                        <td>5.0</td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <input class="D_FwCheck" name="D_Choose" type="checkbox" value="单选" title="配件"/>
-                            <span>单选</span>
-                        </td>
-                        <td>服务名称服务名称</td>
-                        <td>138.00</td>
-                        <td>98</td>
-                        <td>5.0</td>
-                    </tr>
-                    </tbody>
-                </table>
-                <div class="D_FwzfBtn">
-                    <button class="D_FwBtn">取消</button>
-                    <button id="D_child1" class="D_FwBtn D_child">确定</button>
                 </div>
             </div>
         </div>

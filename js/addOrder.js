@@ -339,11 +339,13 @@ layui.use(['form','layer','laydate'], function(){
       //渲染 服务地址下拉框
       addressSelect:function(addr){
         var str = '<option></option>';
-        $.each(addr,function (i, v) {
-          str += '<option value="'+v.id+'">'+v.username+' '+v.tel+' '+v.full_address+'</option>'
-        });
-        $('#street_id').html(str);
-        form.render('select');
+        if(addr){
+          $.each(addr,function (i, v) {
+            str += '<option value="'+v.id+'">'+v.username+' '+v.tel+' '+v.full_address+'</option>'
+          });
+          $('#street_id').html(str);
+          form.render('select');
+        }
       },
       //获取用户信息
       userInfo:function(mobile){

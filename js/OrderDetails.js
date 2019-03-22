@@ -187,7 +187,14 @@ function newProvider(providerId) {
 
     })
 }
-
+// 回到顶部
+function scropTop(){(function smoothscroll(){
+    var currentScroll = document.documentElement.scrollTop || document.body.scrollTop;
+    if (currentScroll > 0) {
+        window.requestAnimationFrame(smoothscroll);
+        window.scrollTo (0,currentScroll - (currentScroll/5));
+    }
+})()}
 // 初始化
 $(function () {
     function parseUrl() {
@@ -240,41 +247,7 @@ $(function () {
         $('.orderlist2').text(res.data.source_text)//A下单方式
         $('.orderlist3').text(res.data.price_type_text)//定金
         $('.orderlist4').text(res.data.pay_status_text)//订单状态
-        $('.orderlist5').text(res.data.status_text)
-        //支付状态
-        // switch (Number(res.data.status)) {
-        //     case 100:
-        //         $('.orderlist5').text('已完成')//支付状态
-        //         break
-        //     case 90:
-        //         $('.orderlist5').text('补差价')//支付状态
-        //         break
-        //     case 80:
-        //         $('.orderlist5').text('待确认')//支付状态
-        //         break
-        //     case 70:
-        //         $('.orderlist5').text('待服务')//支付状态
-        //         break
-        //     case 60:
-        //         $('.orderlist5').text('待到达')//支付状态
-        //         break
-        //     case 50:
-        //         $('.orderlist5').text('待出发')//支付状态
-        //         break
-        //     case 40:
-        //         $('.orderlist5').text('待商家指派')//支付状态
-        //         break
-        //     case 30:
-        //         $('.orderlist5').text('待商家接单')//支付状态
-        //         break
-        //     case 20:
-        //         $('.orderlist5').text('等待分配商家')//支付状态
-        //         break
-        //     case 10:
-        //         $('.orderlist5').text('待支付')//支付状态
-        //         break
-        // }
-
+        $('.orderlist5').text(res.data.status_text)//支付状态
         $('.orderlist6').text(res.data.create_time)//下单时间
         $('.orderlist7').text(res.data.total_amount)//订单价格
         $('.orderlist8').text(res.data.pay_type_text)//支付方式
@@ -382,7 +355,6 @@ $(function () {
                 break;
             case '40':
                 //待商家指派
-
                 var providerId = {
                     id: shop_id
                 }
@@ -563,6 +535,7 @@ $('#D_tjbtn').bind('click', function (event) {
 // 打开修改订单备注
 $('#twoBtn').bind('click', function () {
     $("#D_none1").removeClass("D_none");
+    scropTop()
     $('.bjInput').val($('#D_bzContent').html())
 })
 // 提交修改备注信息
@@ -591,8 +564,8 @@ $('#I_con1').bind('click', function () {
 // 手动选择服务打开弹窗
 var that //存储当前的this
 $('#D_addChildCao').on('click', '.D_CBtn', function () {
+    scropTop()
     $('#D_Cz').removeClass('D_none')
-
     var List={
         street_id:area_id,
         category:category
@@ -602,6 +575,7 @@ $('#D_addChildCao').on('click', '.D_CBtn', function () {
     // 选择服务时复选变单选
     $("input[name='SingleCz']").prop("checked", false);//初始化每次点击input的checked的值
     that = this
+
 })
 // 关闭服务弹框
 $('#D_EngineerCz').bind('click', function () {
@@ -614,6 +588,8 @@ $('#D_XCanle').bind('click', function () {
 })
 // 这里是在修改服务的值 // 获取被选中的的服务的值
 $('#CzBtn').bind('click', function () {
+
+
     if (String(stutes) == '20') {
         var yiServiceData = {
             id: DetailId,
@@ -669,9 +645,14 @@ $('#I_Engineer').bind('click', function () {
     $('#Engineer').addClass('D_none')
     $("input[name='SingleElection']").prop("checked", false);
 })
+
+$('#D_EntCancle').bind('click', function () {
+    $('#Engineer').addClass('D_none')
+    $("input[name='SingleElection']").prop("checked", false);
+})
 // 确认订单 与 分配工程师、
 $('#suerBtn').bind('click', function () {
-
+    scropTop()
     switch (String(stutes)) {
         case '20':
                 serviceList()
@@ -691,7 +672,6 @@ $('#suerBtn').bind('click', function () {
             break;
         case '40':
             $('#Engineer').removeClass('D_none')
-
             break;
         case '50':
             var departId = {
@@ -708,7 +688,6 @@ $('#suerBtn').bind('click', function () {
                 id: DetailId
             }
             orderDetail.Arrive(arriveId, function (res) {
-
                 window.location.href = "./OrderDetails.html?id=" + DetailId;
             }, function (err) {
 
@@ -747,6 +726,7 @@ $('#suerBtn').bind('click', function () {
 // 从新分配工程师
 $('#newEngineer').bind('click', function () {
     $('#Engineer').removeClass('D_none')
+    scropTop()
 })
 //跳转带出发
 $('#EngineerBtn').bind('click', function () {
@@ -759,7 +739,7 @@ $('#EngineerBtn').bind('click', function () {
             orderDetail.toProvider(toProviderData, function (res) {
 
                 $('#Engineer').addClass('D_none')
-
+                tipMsg('分配成功')
             }, function (err) {
 
             })
@@ -770,11 +750,11 @@ $('#EngineerBtn').bind('click', function () {
                 provider: provider
             }
             orderDetail.toProvider(toProviderData, function (res) {
-
                 window.location.href = "./OrderDetails.html?id=" + DetailId;
                 $('#Engineer').addClass('D_none')
             }, function (err) {
 
+                tipMsg('没有服务人员')
             })
 
     }
@@ -819,6 +799,11 @@ $('#D_addTable').on('click', 'i', function () {
 // 关闭服务弹框
 $('#O_Engineer').bind('click', function () {
     $('#over').addClass('D_none')
+})
+
+$('#D_FwBtnCancle').bind('click', function () {
+    $('#over').addClass('D_none')
+
 })
 //确认完成弹框按钮
 var details = []
