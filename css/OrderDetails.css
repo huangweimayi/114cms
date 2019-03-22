@@ -9,9 +9,11 @@
 }
 .D_content_one{
     float:left;
+    /*width: 50%;*/
 }
 .D_content_two{
     float:right;
+    /*width: 50%;*/
 }
 .fs20{
    font-size: 20px;
@@ -80,7 +82,7 @@
 }
 
 .D_w{
-    width: 400px;
+    width: 50%;
 }
 .D_img{
     width: 200px;

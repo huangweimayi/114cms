@@ -34,7 +34,6 @@ function Sum() {
     numArr1 = []
 
 }
-
 // 选择服务时复选变单选
 var checkThis
 //获取服务信息的值
@@ -106,7 +105,6 @@ function serviceList(List) {
                     '                    <td>' + FpgcsCz[i].title + '</td>\n' +
                     '                    <td>' +
                     '      <select class="D_select">\n' +
-                    '<option value="￥' + FpgcsCz[i].price + '">' + FpgcsCz[i].category_text + '</option>\n' +
                     '      </select>\n' +
                     '</td>\n' +
                     '                    <td>' + FpgcsCz[i].price_type_text + '</td>\n' +
@@ -247,9 +245,7 @@ $(function () {
             $('#cancelBtn').addClass('D_none')
             $("#oneBtn").addClass('D_none')
             $("#twoBtn").addClass('D_none')
-
         }
-
         $('#D_img').attr('src', res.data.user_imgs)
         $('.orderlist1').text(res.data.number)//订单号
         $('.orderlist2').text(res.data.source_text)//A下单方式
@@ -264,7 +260,21 @@ $(function () {
         $('.orderlist22').text(res.data.service.category_text)//服务分类
         var Pice = res.data.request_info.price
         // var servicePice = Pice +'元'
-        var servicePice = Pice[0] + '-' + Pice[1] + '元'
+        if(typeof (Pice)=='string'){
+            var servicePice = Pice + '元'
+        }else {
+            if(Pice.length>0&&Pice.length<=1){
+                var servicePice = Pice[0]+ '元
+            }else {
+                if(Pice[0]>Pice[1]){
+                    var servicePice = Pice[0] + '-' + Pice[1] + '元'
+                }else {
+                    var servicePice = Pice[1] + '-' + Pice[0] + '元'
+                }
+
+            }
+        }
+
 
         $('.orderlist33').text(servicePice)//服务价格
         $('.orderlist44').text(res.data.user_remark)//服务备注
@@ -353,8 +363,6 @@ $(function () {
                     $("#oneBtn").addClass('D_none')
                     $("#twoBtn").addClass('D_none')
                 } else {
-                    // $('#D_FwOne').addClass('D_none')
-                    // $('#D_FwTwo').removeClass('D_none')
                     $('#cancelBtn').removeClass('D_none')
                     $('#suerBtn').removeClass('D_none')
                     $('#suerBtn').html('手动重选服务')
@@ -605,7 +613,7 @@ $('#CzBtn').bind('click', function () {
             window.location.href = "./OrderDetails.html?id=" + DetailId;
             $('#D_Cz').addClass('D_none')
         }, function (err) {
-
+            tipMsg(err.message)
         })
     } else {
         //确定页面操作服务选项的值
@@ -672,7 +680,7 @@ $('#suerBtn').bind('click', function () {
             orderDetail.Confirm(myid, function (res) {
                 window.location.href = "./OrderDetails.html?id=" + DetailId;
             }, function (err) {
-
+                tipMsg(err.message)
             })
             break;
         case '40':
@@ -686,7 +694,7 @@ $('#suerBtn').bind('click', function () {
             orderDetail.depart(departId, function (res) {
                 window.location.href = "./OrderDetails.html?id=" + DetailId;
             }, function (err) {
-
+                tipMsg(err.message)
             })
             break;
         case '60':
@@ -696,7 +704,7 @@ $('#suerBtn').bind('click', function () {
             orderDetail.Arrive(arriveId, function (res) {
                 window.location.href = "./OrderDetails.html?id=" + DetailId;
             }, function (err) {
-
+                tipMsg(err.message)
             })
             break;
         case '70':
@@ -721,7 +729,7 @@ $('#suerBtn').bind('click', function () {
             orderDetail.payDetail(payDetailId, function (res) {
                 window.location.href = "./OrderDetails.html?id=" + DetailId;
             }, function (err) {
-
+                tipMsg(err.message)
             })
             break;
         case '100':
@@ -748,7 +756,7 @@ $('#EngineerBtn').bind('click', function () {
                 $('#Engineer').addClass('D_none')
                 tipMsg('分配成功')
             }, function (err) {
-
+                tipMsg('没有服务人员')
             })
             break;
         case '40':
@@ -760,9 +768,8 @@ $('#EngineerBtn').bind('click', function () {
                 window.location.href = "./OrderDetails.html?id=" + DetailId;
                 $('#Engineer').addClass('D_none')
             }, function (err) {
-                tipMsg('没有服务人员')
+                tipMsg(err.message)
             })
-
     }
 
 })
@@ -835,10 +842,9 @@ $('#D_child').bind('click', function () {
     }
 
     orderDetail.finish(finishData, function (res) {
-
         window.location.href = "./OrderDetails.html?id=" + DetailId
     }, function (err) {
-
+        tipMsg(err.message)
     })
 
 })
@@ -887,7 +893,7 @@ $('#cancelBtn').bind('click', function () {
 
         window.location.href = "./OrderDetails.html?id=" + DetailId;
     }, function (err) {
-
+        tipMsg(err.message)
     })
 })
 //确认回访
@@ -901,7 +907,7 @@ $('#D_feedback').bind('click', function () {
 
         window.location.href = "./OrderDetails.html?id=" + DetailId + '&over=' + 1;
     }, function (err) {
-
+        tipMsg(err.message)
     })
 })
 // 暂时跳转异常页面
