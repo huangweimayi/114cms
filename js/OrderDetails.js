@@ -37,7 +37,7 @@ function Sum() {
 
 // 选择服务时复选变单选
 var checkThis
-
+//获取服务信息的值
 function checkBox(isBox) {
     SingleCzArr = []
     SingleCzArr.push($(isBox).parent().next().text())
@@ -50,7 +50,7 @@ function checkBox(isBox) {
     severId = $(isBox).parent().parent().attr('id')
     severNum = $(isBox).parent().next().next().next().next().next().children().val()
 }
-
+// 选择下拉框找DOM
 function select() {
     $("input[name='SingleCz']").on('click', function () {
         // 取消全部checkbox的选中
@@ -60,7 +60,6 @@ function select() {
         checkThis = this
         if ($(this).parent().next().next().children().hasClass('D_select')) {
             checkBox(this)
-
         }
         else {
             SingleCzArr = []
@@ -73,7 +72,7 @@ function select() {
         }
     });
 }
-
+// 服务信息第二模板
 function moBan(res) {
     var html = ' <tr>\n' +
         '                    <td>' + res.data.service.name + '</td>\n' +
@@ -148,9 +147,9 @@ function serviceList(List) {
                     SingleCzArr.push('')
                     SingleCzArr.push($(this).val())
                 }
-
             }
         })
+
         // 执行复选框的方法
         select()
         // 限制输入框的为数字
@@ -165,7 +164,6 @@ function serviceList(List) {
     })
 
 }
-
 // 获取服务人员
 function newProvider(providerId) {
     orderDetail.provider(providerId, function (res) {
@@ -190,18 +188,21 @@ function newProvider(providerId) {
 
     })
 }
-
 // 回到顶部
 function scropTop() {
-    (function smoothscroll() {
-        var currentScroll = document.documentElement.scrollTop || document.body.scrollTop;
-        if (currentScroll > 0) {
-            window.requestAnimationFrame(smoothscroll);
-            window.scrollTo(0, currentScroll - (currentScroll / 5));
-        }
-    })()
-}
-
+        var d = document,
+            dd = document.documentElement,
+            db = document.body,
+            top = dd.scrollTop || db.scrollTop,
+            step = Math.floor(top / 20);
+        (function fn() {
+            top -= step;
+            if (top > -step) {
+                dd.scrollTop == 0 ? db.scrollTop = top: dd.scrollTop = top;
+                setTimeout(fn, 20);
+            }
+        })();
+    }
 // 初始化
 $(function () {
     function parseUrl() {
@@ -592,7 +593,7 @@ $('#D_XCanle').bind('click', function () {
 })
 // 这里是在修改服务的值 // 获取被选中的的服务的值
 $('#CzBtn').bind('click', function () {
-
+    //手动重选重选服务
     if (String(stutes) == '20') {
         var yiServiceData = {
             id: DetailId,
@@ -602,18 +603,12 @@ $('#CzBtn').bind('click', function () {
         }
         orderDetail.hangeService(yiServiceData, function (res) {
             window.location.href = "./OrderDetails.html?id=" + DetailId;
-            $(that).siblings().each(function (index) {
-                if (index == SingleCzArr.length - 2) {
-                    $(this).text(SingleCzArr[SingleCzArr.length - 1])
-                } else {
-                    $(this).text(SingleCzArr[index])
-                }
-            })
             $('#D_Cz').addClass('D_none')
         }, function (err) {
 
         })
     } else {
+        //确定页面操作服务选项的值
         var hangeServiceData = {
             id: DetailId,
             service_store_id: severId,
@@ -621,8 +616,6 @@ $('#CzBtn').bind('click', function () {
             sku_id: checkBoxId||''
         }
         orderDetail.hangeService(hangeServiceData, function (res) {
-            console.log($(that))
-            console.log(SingleCzArr)
             $(that).siblings().each(function (index) {
 
                 if (index == SingleCzArr.length - 2) {
@@ -631,7 +624,6 @@ $('#CzBtn').bind('click', function () {
                     $(this).text(SingleCzArr[index])
                 }
             })
-            // window.location.href = "./OrderDetails.html?id=" + DetailId;
             $('#D_Cz').addClass('D_none')
             Sum()
             SingleCzArr = []
@@ -661,7 +653,7 @@ $('#D_EntCancle').bind('click', function () {
 })
 // 确认订单 与 分配工程师、
 $('#suerBtn').bind('click', function () {
-    scropTop()
+
     switch (String(stutes)) {
         case '20':
             var List = {
@@ -669,6 +661,7 @@ $('#suerBtn').bind('click', function () {
                 category:category
             }
             serviceList(List)
+            scropTop()
             $('#D_Cz').removeClass('D_none')
             break;
         case '30':
@@ -683,6 +676,7 @@ $('#suerBtn').bind('click', function () {
             })
             break;
         case '40':
+            scropTop()
             $('#Engineer').removeClass('D_none')
             break;
         case '50':
@@ -716,6 +710,7 @@ $('#suerBtn').bind('click', function () {
             })
             break;
         case '80':
+            scropTop()
             $('#over').removeClass('D_none')
 
             break;
@@ -730,6 +725,7 @@ $('#suerBtn').bind('click', function () {
             })
             break;
         case '100':
+            scropTop()
             $('#D_Win').removeClass('D_none')
             break;
     }
@@ -749,7 +745,6 @@ $('#EngineerBtn').bind('click', function () {
                 provider: provider
             }
             orderDetail.toProvider(toProviderData, function (res) {
-
                 $('#Engineer').addClass('D_none')
                 tipMsg('分配成功')
             }, function (err) {
@@ -765,7 +760,6 @@ $('#EngineerBtn').bind('click', function () {
                 window.location.href = "./OrderDetails.html?id=" + DetailId;
                 $('#Engineer').addClass('D_none')
             }, function (err) {
-
                 tipMsg('没有服务人员')
             })
 
