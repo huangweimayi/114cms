@@ -156,11 +156,14 @@
                     <input type="radio" name="radio" value="满意" class="v_a" />&nbsp;&nbsp;满意
                     <input type="radio" name="radio" value="不满意" class="v_a m_l_24" />&nbsp;&nbsp;不满意
                 </div> -->
-            <!-- <div class="m_b30"> -->
-                <!-- <textarea name="desc" placeholder="" class="w_290 h_100" id="textarea"></textarea> -->
-                <div class="w_290 m_auto over_y" id="textarea"></div>
-            <!-- </div> -->
-                <!-- <button class="layui-btn" class="sbmit" id="sbmit_two">提交</button> -->
+                <div class="w_290 m_auto over_y" id="textarea_one"></div>
+                <div>
+                <div class="m_b30">
+                 <textarea name="desc" placeholder="" class="w_290 h_100" id="textarea"  style="display:none;margin: auto;"></textarea>
+                </div>
+                <button class="layui-btn" class="sbmit" id="sbmit_two" style="display:none;margin: auto;">提交</button>
+                </div>
+         
                 <!-- </form> -->
             </div>
         </div>
@@ -187,6 +190,7 @@
         var select = '';//服务城市
         // var page = 1;
         var reVisitId = '';//点击回访得到id
+        var _page=''//dangqianyeshu 
         // var scoreStar=''//评论星数
         //显示城市
         var data_one = {};
@@ -215,14 +219,12 @@
                 status: optionTab,
                 mobile:shop_user
             }
-            // console.log(1111111111, dataList)
             orderList.order(dataList, function (res) {
                 // console.log(res.data)
-                // res.data.list[0].feedback="是ID是否会你哦大V你否定VR诶of弄反是ID是否会你哦大V你否定VR诶of弄反是ID是否会你哦大V你否定VR诶of弄反是ID是否会你哦大V你否定VR诶of弄反是ID是否会你哦大V你否定VR诶of弄反是ID是否会你哦大V你否定VR诶of弄反是ID是否会你哦大V你否定VR诶of弄D是否会你哦大V你否定VR诶of弄反是ID是否会D是否会你哦大V你否定VR诶of弄反是ID是否会D是否会你哦大V你否定VR诶of弄反是ID是否会D是否会你哦大V你否定VR诶of弄反是ID是否会D是否会你哦大V你否定VR诶of弄反是ID是否会D是否会你哦大V你否定VR诶of弄反是ID是否会D是否会你哦大V你否定VR诶of弄反是ID是否会D是否会你哦大V你否定VR诶of弄反是ID是否会反是ID是否会你哦大V你否定VR诶of弄反是ID是否会你哦大V你否定VR诶of弄反dbsishfiu那次是ID是否会你哦大V你否定VR诶of弄反GVIE如"
                 var str = '';
                 for (var i = 0; i < res.data.list.length; i++) {
                     if (optionTab == 'cancel' || optionTab == 100) {
-                        str = '<button class="layui-btn layui-btn-normal reVisit" id=' + res.data.list[i].feedback + '>回访</button>';
+                        str = '<button class="layui-btn layui-btn-normal reVisit" id=' + res.data.list[i].feedback+','+res.data.list[i].id+ '>回访</button>';
                     } else {
                         str = ''
                     }
@@ -245,23 +247,25 @@
              
                 //点击回访
                 $('.reVisit').on('click', (function (e) {
-                    if(e.target.id){
-                        $('#textarea').text(e.target.id);
+                    $('#textarea').val('');
+                   var _target=e.target.id.split(',');
+                    reVisitId = _target[1];
+                    if(_target[0]){
+                        $('#textarea_one').text(_target[0]);
+                        $('#textarea_one').css('display', 'block');
+                        $('#textarea').css('display', 'none');
+                        $('#sbmit_two').css('display', 'none');
+
                     }else{
-                        $('#textarea').text('暂无数据');
+                        $('#textarea_one').css('display', 'none');
+                        $('#textarea').css('display', 'block');
+                        $('#sbmit_two').css('display', 'block');
                     }
                     $('#visit').css('display', 'block');
                     $('#opsitio').css('display', 'block');
                 }))
-                // $('.reVisit').on('click', (function (e) {
-                //     $('#textarea').val('');
-                //     placeholder();
-                //     reVisitId = e.target.id
-                //     $('#visit').css('display', 'block');
-                //     $('#opsitio').css('display', 'block');
-                // }))
                 //点击详情
-                $('.details').on('click', (function (e) {
+                $('.details').on('click', (function (e) { 
                     $(location).attr('href', 'OrderDetails.html?id=' + e.target.id)
                 }))
                       //分页
@@ -273,6 +277,7 @@
                         pages: res.data.totalPage || 0, //数据总数
                         curr: page || 1,
                         jump: function (obj, first) {
+                            _page=obj.curr;
                             if (!first) {
                                 orderLists(obj.curr);
                             }
@@ -380,25 +385,25 @@
         //     half: true
         // });
         //点击弹出框提交按钮
-        
-        //     $('#sbmit_two').click(function () {
-        //     var textVal = $('#textarea').val();
-        //     if($('#textarea').val()){
-        //     var data = {
-        //         id: reVisitId,
-        //         content: textVal
-        //     }
-        //     orderList.feedback(data, function (res) {
-        //         if (res.message == '操作成功') {
-        //             layer.msg('内容提交成功~~');
-        //         } else {
-        //             layer.msg('内容提交失败~~');
-        //         }
-        //         $('#visit').css('display', 'none');
-        //         $('#opsitio').css('display', 'none');
-        //     })
-        // }
-        //  })
+        $('#sbmit_two').click(function () {
+            var textVal = $('#textarea').val();
+            if($('#textarea').val()){
+            var _data = {
+                id: reVisitId,
+                content: textVal
+            }
+            orderList.feedback(_data, function (res) {
+                if (res.message == '操作成功') {
+                    layer.msg('内容提交成功~~');
+                    orderLists(_page);
+                } else {
+                    layer.msg('内容提交失败~~');
+                }
+                $('#visit').css('display', 'none');
+                $('#opsitio').css('display', 'none');
+            })
+        }
+         })
        
  
         //设置input,textarea默认值

@@ -253,7 +253,7 @@ layui.use(['form','layer','laydate'], function(){
       //服务城市change
       function getCity(dom,num,val) {//分类赋值
         if(num != 3) {
-          _top.ajaxDo.areaList(dom,val);
+          _top.ajaxDo.areaList(dom,val,num);
         }
         _top.infor.addInfo.street_id = val;
       }
@@ -264,7 +264,7 @@ layui.use(['form','layer','laydate'], function(){
       });
       form.on('select(city2)', function(data){
         getCity($('#city3'),2,data.value);
-        _top.ajaxDo.serviceOne(1)
+        // _top.ajaxDo.serviceOne(1)
       });
       form.on('select(city3)', function(data){
         getCity($('#city3'),3,data.value);
@@ -321,7 +321,7 @@ layui.use(['form','layer','laydate'], function(){
         var index = _t.parents('.c_l_out').find('#serviceBody').find("input:checked[name='which']").val();
         // var index = $("#serviceBody input:checked[name='which']").val();
         if(index>-1){
-          events.ajaxDo.delTable(events.infor.serviceList[index]);
+          events.ajaxDo.delTable(events.infor.serviceList[index],1);
           layer.closeAll()
         }else{
           layer.closeAll()
@@ -418,10 +418,13 @@ layui.use(['form','layer','laydate'], function(){
         }
         if(isOne){
           delete data.page;
+          if(!data.street_id) return;
           _hw.serviceOne(data,function(res){
             var _data = res.data.service;
             if(_data.id>-1){
-              events.ajaxDo.delTable(_data)
+              events.ajaxDo.delTable(_data,1)
+            }else{
+              events.ajaxDo.delTable(_data,0)
             }
           },function(errMsg){});
         }
@@ -476,35 +479,41 @@ layui.use(['form','layer','laydate'], function(){
 
         }
       },
-      delTable:function(_data){
+      delTable:function(_data,num){
         $('#service_table').show();
-        $('#s_title').text(_data.title);
-        $('#s_cate').text(_data.category_text);
-        $('#s_price').text(_data.price);
-        $('#s_num').val(_data.min_number);
-        $('#store_name').text(_data.store_name);
-        events.infor.min_number = _data.min_number;
-        events.infor.current_service = _data;
-        events.infor.addInfo.quantity = _data.min_number;
-        events.infor.addInfo.service_store_id = _data.id;
-        events.infor.servicePrice = _data.price;
-        if(_data.price_type == 2){
-          $('#total_price').text(_data.price)
+        $('#s_title').text(num?_data.title:'-');
+        $('#s_cate').text(num?_data.category_text:'-');
+        $('#s_price').text(num?_data.price:'-');
+        $('#s_num').val(num?_data.min_number:'-');
+        $('#store_name').text(num?_data.store_name:'-');
+        events.infor.min_number =num?_data.min_number:'';
+        events.infor.current_service =num?_data:{};
+        events.infor.addInfo.quantity = num?_data.min_number:'';
+        events.infor.addInfo.service_store_id = num?_data.id:'';
+        events.infor.servicePrice = num?_data.price:'';
+        if(num == 1){
+          if(_data.price_type == 2){
+            $('#total_price').text(_data.price)
+          }else{
+            $('#total_price').text(Number(_data.price)*Number(_data.min_number))
+          }
+          var sku = _data.sku_list;
+          var str = '<option value=""></option>';
+          if(sku && sku.length>0){
+            $.each(sku,function (i, v) {
+              str += '<option value="'+v.id+'">'+v.name +' '+v.price+'</option>'
+            });
+            $('#sku').html(str);
+            form.render('select')
+          }
         }else{
-          $('#total_price').text(Number(_data.price)*Number(_data.min_number))
-        }
-        var sku = _data.sku_list;
-        var str = '<option value=""></option>';
-        if(sku && sku.length>0){
-          $.each(sku,function (i, v) {
-            str += '<option value="'+v.id+'">'+v.name +' '+v.price+'</option>'
-          });
-          $('#sku').html(str);
+          $('#total_price').text('');
+          $('#sku').html('<option value=""></option>');
           form.render('select')
         }
       },
       //省市县下拉
-      areaList:function (dom,pid) {
+      areaList:function (dom,pid,num) {
         _hw.areaList({pid:pid},function (res) {
           var data = res.data.list;
           var str = '<option value=""></option>';
@@ -513,6 +522,7 @@ layui.use(['form','layer','laydate'], function(){
           });
           dom.html(str);
           form.render('select');
+          // events.ajaxDo.serviceOne(1);
         },function(errMsg){})
       },
       //新增订单
