@@ -82,7 +82,7 @@
 }
 
 .D_w{
-    width: 50%;
+    width: 400px;
 }
 .D_img{
     width: 200px;
@@ -406,4 +406,7 @@ select{
 }
 .D_Eng{
     top: 20%;
+}
+.D_span{
+    display: inline-block;
 }

@@ -268,15 +268,13 @@ $(function () {
             }else {
                 if(Pice.length>0){
                     if(Pice[0]>Pice[1]){
-                        var servicePice = Pice[0] + '-' + Pice[1] + '元'
-                    }else {
                         var servicePice = Pice[1] + '-' + Pice[0] + '元'
+                    }else {
+                        var servicePice = Pice[0] + '-' + Pice[1] + '元'
                     }
                 }else {
-                    servicePice=''
+                    servicePice='0.00元'
                 }
-
-
             }
         }
 
