@@ -27,7 +27,7 @@ layui.use(['form','layer','laydate'], function(){
       current_service:{},
       totalPage:0,
       currentPage:1,
-      servicePrice:[],
+      servicePrice:'',
       addInfo:{
         address_id:'',
         category_id:'',
@@ -35,7 +35,7 @@ layui.use(['form','layer','laydate'], function(){
         user_mobile:'',
         user_remark:'',
         type:'',
-        price:'',
+        price:[],
         service_keyword:'',
         mobile:'',
         contact_name:'',
@@ -241,7 +241,7 @@ layui.use(['form','layer','laydate'], function(){
 
       //改变价格
       form.on('select(price)', function(data){
-        _top.infor.servicePrice = priceArr[data.value];
+        _top.infor.addInfo.price = priceArr[data.value];
       });
 
       //服务地址
@@ -287,7 +287,7 @@ layui.use(['form','layer','laydate'], function(){
         if(_top.infor.current_service.price_type == 2){
           $('#total_price').text(_top.infor.current_service.price)
         }else{
-          $('#total_price').text(Number(_top.infor.addInfo.price)*num)
+          $('#total_price').text(Number(_top.infor.servicePrice)*num)
         }
 
         $('#s_num').val(num)
@@ -305,7 +305,7 @@ layui.use(['form','layer','laydate'], function(){
         $.each(_top.infor.current_service.sku_list,function (i, v) {
           if(v.id == data.value){
             $('#s_price').text(v.price.split('￥')[1]);
-            _top.infor.addInfo.price = v.price.split('￥')[1];
+            _top.infor.servicePrice = v.price.split('￥')[1];
           }
         });
       });
@@ -405,8 +405,8 @@ layui.use(['form','layer','laydate'], function(){
       //获取服务
       serviceOne:function (isOne,page) {
         var data = {
-          min_price:events.infor.servicePrice.length>0?events.infor.servicePrice[0]:'',
-          max_price:events.infor.servicePrice.length>0?events.infor.servicePrice[1]:'',
+          min_price:events.infor.addInfo.price.length>0?events.infor.addInfo.price[0]:'',
+          max_price:events.infor.addInfo.price.length>0?events.infor.addInfo.price[1]:'',
           category:events.infor.addInfo.category_id,
           type:events.infor.addInfo.type,
           keyword:events.infor.addInfo.service_keyword,
@@ -487,7 +487,7 @@ layui.use(['form','layer','laydate'], function(){
         events.infor.current_service = _data;
         events.infor.addInfo.quantity = _data.min_number;
         events.infor.addInfo.service_store_id = _data.id;
-        events.infor.addInfo.price = _data.price;
+        events.infor.servicePrice = _data.price;
         if(_data.price_type == 2){
           $('#total_price').text(_data.price)
         }else{
