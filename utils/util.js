@@ -26,7 +26,7 @@ var _mm = {
         if(err.status == 401){
           tipMsg('令牌已失效，请重新登录！');
           setTimeout(function () {
-            _this.goToLogin("../login.html" )
+            _this.goToLogin("./114houtai/login.html" )
           },1500)
         }else{
           typeof param.error === "function" && param.error(err.message);
@@ -60,7 +60,7 @@ var _mm = {
         if(err.status == 401){
           tipMsg('令牌已失效，请重新登录！')
           setTimeout(function () {
-            _this.goToLogin("../login.html" )
+            _this.goToLogin("./114houtai/login.html" )
           },1500)
         }else{
           typeof param.error === "function" && param.error(err.message);
@@ -164,11 +164,11 @@ var _mm = {
   },
   //统一登录处理
   goToLogin: function(url){
-    window.top.location.href = url || "./login.html" ;
+    window.top.location.href = url || "./114houtai/login.html" ;
   },
   //跳回首页
   goHome: function(){
-    window.top.location.href =  url || './index.html';
+    window.top.location.href =  url || './114houtai/index.html';
   },
   //判断日期是否为今天
   isToday:function (str){
