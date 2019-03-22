@@ -218,21 +218,6 @@
             console.log(1111111111, dataList)
             orderList.order(dataList, function (res) {
                 console.log(res.data)
-                    //分页
-                        layui.use(['laypage', 'layer'], function () {
-                    var laypage = layui.laypage
-                        , layer = layui.layer;
-                    laypage({
-                        cont: 'demo1',
-                        pages: res.data.totalPage || 0, //数据总数
-                        curr: page || 1,
-                        jump: function (obj, first) {
-                            if (!first) {
-                                orderLists(obj.curr);
-                            }
-                        }
-                    });
-                });
                 // res.data.list[0].feedback="是ID是否会你哦大V你否定VR诶of弄反是ID是否会你哦大V你否定VR诶of弄反是ID是否会你哦大V你否定VR诶of弄反是ID是否会你哦大V你否定VR诶of弄反是ID是否会你哦大V你否定VR诶of弄反是ID是否会你哦大V你否定VR诶of弄反是ID是否会你哦大V你否定VR诶of弄D是否会你哦大V你否定VR诶of弄反是ID是否会D是否会你哦大V你否定VR诶of弄反是ID是否会D是否会你哦大V你否定VR诶of弄反是ID是否会D是否会你哦大V你否定VR诶of弄反是ID是否会D是否会你哦大V你否定VR诶of弄反是ID是否会D是否会你哦大V你否定VR诶of弄反是ID是否会D是否会你哦大V你否定VR诶of弄反是ID是否会D是否会你哦大V你否定VR诶of弄反是ID是否会反是ID是否会你哦大V你否定VR诶of弄反是ID是否会你哦大V你否定VR诶of弄反dbsishfiu那次是ID是否会你哦大V你否定VR诶of弄反GVIE如"
                 var str = '';
                 for (var i = 0; i < res.data.list.length; i++) {
@@ -279,6 +264,21 @@
                 $('.details').on('click', (function (e) {
                     $(location).attr('href', 'OrderDetails.html?id=' + e.target.id)
                 }))
+                      //分页
+                      layui.use(['laypage', 'layer'], function () {
+                    var laypage = layui.laypage
+                        , layer = layui.layer;
+                    laypage({
+                        cont: 'demo1',
+                        pages: res.data.totalPage || 0, //数据总数
+                        curr: page || 1,
+                        jump: function (obj, first) {
+                            if (!first) {
+                                orderLists(obj.curr);
+                            }
+                        }
+                    });
+                });
             })
         }
         orderLists(1);
