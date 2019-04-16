@@ -442,7 +442,7 @@ layui.use(['form','layer','laydate'], function(){
                   '            单选\n' +
                   '          </label>\n' +
                   '        </td>\n' +
-                  '        <td>'+v.title+'</td>\n' +
+                  '        <td>'+v.name+'</td>\n' +
                   '        <td>'+v.price+'</td>\n' +
                   '        <td>'+v.store_name+'</td>\n' +
                   // '        <td>暂无</td>\n' +
