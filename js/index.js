@@ -32,7 +32,6 @@ var events = {
 
   },
   ajaxDo:{
-
     //顶部数量
     count:function () {
       _hw.count({},function (res) {

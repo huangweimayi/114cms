@@ -156,6 +156,23 @@ var orderList = {
   },
 }
 var orderDetail = {
+    // 获取省市县下拉
+    // areaList: function (data, resolve, reject) {
+    //     _mm.request({
+    //         url: _mm.getServerUrl('/manage114/area/select-list?' + _mm.setUrlParam(data)),
+    //         method: 'GET',
+    //         success: resolve,
+    //         error: reject
+    //     });
+    // },
+    areaList: function (data, resolve, reject) {
+        _mm.request({
+            url: _mm.getServerUrl('/manage114/area/select-list?' + _mm.setUrlParam(data)),
+            method: 'GET',
+            success: resolve,
+            error: reject
+        });
+    },
   //详情
   order: function (data, resolve, reject) {
     _mm.request({

@@ -86,7 +86,9 @@
                         <span>联系人:</span><span class="D_name1 D_name"></span>
                     </div>
                     <div>
-                        <span class="D_line">服务地址:</span><span class="D_name D_name2 D_w D_line"></span>
+                        <p class="D_line D_span">服务地址:</p><p class="D_span  D_w D_line">
+                        <span class="D_name2"></span><span class="D_name2-1 D_name"></span>
+                    </p>
                     </div>
                     <div>
                         <span>服务时间:</span><span class="D_name D_name3"></span>
@@ -348,7 +350,13 @@
                 <div class="layui-form-item D_beizu">
                     <label class="layui-form-label" style="width: 112px">服务地址</label>
                     <div class="layui-input-block">
-                        <input type="text" name="title" required lay-verify="required" placeholder="请输入服务地址"
+                        <div class="D_province" style=" line-height: 39px; word-wrap:break-word; word-break:break-all"></div>
+                    </div>
+                </div>
+                <div class="layui-form-item D_beizu">
+                    <label class="layui-form-label" style="width: 112px">地址详情</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="title" required lay-verify="required" placeholder="请输入详细地址"
                                autocomplete="off"
                                class="layui-input nameInput" style=" width: 50%">
                         <span class="D_tishi D_tishi3 D_none">地址不能为空</span>
@@ -465,7 +473,7 @@
                     <th id="X_3c">分类</th>
                     <th id="X_4c">价格类型</th>
                     <th id="X_5c">单价</th>
-                    <th id="X_6c">数量(可修改)</th>
+                    <th id="X_6c">数量(定金类型不可修改)</th>
                 </tr>
                 </thead>
                 <tbody>

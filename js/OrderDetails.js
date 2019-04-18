@@ -15,6 +15,9 @@ var is_feedback
 var is_cancel
 var area_id //地址id
 var category
+var xianXiDz
+var xianXiQu
+// var busCode
 
 // 求服务信息总和的共用函数
 function Sum() {
@@ -48,6 +51,7 @@ function checkBox(isBox) {
     checkBoxId = $(isBox).parent().next().next().find("option:selected").attr('id')
     severId = $(isBox).parent().parent().attr('id')
     severNum = $(isBox).parent().next().next().next().next().next().children().val()
+
 }
 // 选择下拉框找DOM
 function select() {
@@ -61,16 +65,26 @@ function select() {
             checkBox(this)
         }
         else {
-            SingleCzArr = []
+            SingleCzArr = [],
+                severNum=''
+                severId=''
+                busCode=''
             $(this).parent().siblings().each(function () {
                 SingleCzArr.push($(this).text())
             })
             SingleCzArr.push($(this).parent().siblings().children().val())
             severId = $(this).parent().parent().attr('id')
             severNum = $(this).parent().siblings().children().val()
+            // busCode=$(this).parent().siblings().children().attr('busCode')
         }
     });
 }
+// 绑定change事件选中当前的改变的值
+$("#D_FpgcsCz").on("change",'.D_xianzhi',function(){
+    if($(this).parent().parent().children().eq(0).children().prop("checked")){
+        severNum=$(this).val()
+    }
+})
 // 服务信息第二模板
 function moBan(res) {
     var html = ' <tr>\n' +
@@ -90,14 +104,26 @@ function serviceList(List) {
         FpgcsCz = res.data.list
         for (var i = 0; i < FpgcsCz.length; i++) {
             if (!FpgcsCz[i].sku_list) {
-                html = '<tr class="D_FwTable" id="' + FpgcsCz[i].id + '">\n' +
-                    '                    <td><input class="D_ridio" type="checkbox" name="SingleCz" lay-skin="primary"></td>\n' +
-                    '                    <td>' + FpgcsCz[i].title + '</td>\n' +
-                    '                    <td>' + FpgcsCz[i].category_text + '</td>\n' +
-                    '                    <td>' + FpgcsCz[i].price_type_text + '</td>\n' +
-                    '                    <td>￥' + FpgcsCz[i].price + '</td>\n' +
-                    '                    <td style="width: 140px"><input maxlength="8" class="D_Ipt D_FwTable  D_xianzhi"  value="' + FpgcsCz[i].min_number + '" type="text"></td>\n' +
-                    '                </tr>'
+                if(FpgcsCz[i].price_type_text=='一口价'){
+                    html = '<tr class="D_FwTable" id="' + FpgcsCz[i].id + '">\n' +
+                        '                    <td><input class="D_ridio" type="checkbox" name="SingleCz" lay-skin="primary"></td>\n' +
+                        '                    <td>' + FpgcsCz[i].title + '</td>\n' +
+                        '                    <td>' + FpgcsCz[i].category_text + '</td>\n' +
+                        '                    <td>' + FpgcsCz[i].price_type_text + '</td>\n' +
+                        '                    <td>￥' + FpgcsCz[i].price + '</td>\n' +
+                        '                    <td style="width: 140px"><input maxlength="8" class="D_Ipt D_FwTable  D_xianzhi" busCode="' + FpgcsCz[i].min_number + '"   value="' + FpgcsCz[i].min_number + '" type="text"></td>\n' +
+                        '                </tr>'
+                }else {
+                    html = '<tr class="D_FwTable" id="' + FpgcsCz[i].id + '">\n' +
+                        '                    <td><input class="D_ridio" type="checkbox" name="SingleCz" lay-skin="primary"></td>\n' +
+                        '                    <td>' + FpgcsCz[i].title + '</td>\n' +
+                        '                    <td>' + FpgcsCz[i].category_text + '</td>\n' +
+                        '                    <td>' + FpgcsCz[i].price_type_text + '</td>\n' +
+                        '                    <td>￥' + FpgcsCz[i].price + '</td>\n' +
+                        '                    <td style="width: 140px"><input maxlength="8" class="D_Ipt D_FwTable  D_xianzhi" busCode="'+FpgcsCz[i].min_number+'"  value="' + FpgcsCz[i].min_number + '" type="text" readonly="readonly"></td>\n' +
+                        '                </tr>'
+                }
+
             }
             else {
                 html = $('<tr class="D_FwTable" id="' + FpgcsCz[i].id + '">\n' +
@@ -214,7 +240,6 @@ $(function () {
             var ta = arr1[i].split('=');
             arr2[ta[0]] = ta[1];
         }
-
         return arr2;
     }
 
@@ -231,7 +256,7 @@ $(function () {
         is_feedback = res.data.is_feedback
         is_cancel = res.data.is_cancel
         area_id = res.data.area_id
-        category = res.data.request_info.category
+        category = res.data.request_info?res.data.request_info.category:''
         //判断回访之后的完成
         if (is_feedback == 1) {
             $('#suerBtn').addClass('D_none')
@@ -255,10 +280,9 @@ $(function () {
         $('.orderlist6').text(res.data.create_time)//下单时间
         $('.orderlist7').text(res.data.total_amount)//订单价格
         $('.orderlist8').text(res.data.pay_type_text)//支付方式
-
         $('.orderlist11').text(res.data.user_mobile)//下单账号
         $('.orderlist22').text(res.data.service.category_text)//服务分类
-        var Pice = res.data.request_info.price
+        var Pice = res.data.request_info?res.data.request_info.price:''
         // var servicePice = Pice +'元'
         if(typeof (Pice)=='string'){
             var servicePice = Pice + '元'
@@ -285,8 +309,11 @@ $(function () {
         $('.orderlist77').text(res.data.service.name)//服务内容
 
         //获取用户地址class
+        xianXiDz=res.data.address||''
+        xianXiQu=res.data.area_text
         $('.D_name1').text(res.data.contact_name)//联系人
-        $('.D_name2').text(res.data.full_address)//服务地址
+        $('.D_name2').text(res.data.area_text)//服务地址区域
+        $('.D_name2-1').text(res.data.address||'')//地址详情
         $('.D_name3').text(res.data.service_time)//服务时间
         $('.D_name4').text(res.data.user_remark)//备注
         $('.D_name5').text(res.data.mobile)//电话
@@ -452,11 +479,7 @@ $(function () {
                 break
         }
     }, function (err) {
-
     })
-
-
-
 });
 // 时间选择器
 layui.use('laydate', function () {
@@ -487,11 +510,14 @@ $('#oneBtn').bind('click', function () {
         $(this).text()
         nameArr.push($(this).text())
     });
+
     $('.nameInput').eq(0).val(nameArr[0])
     $('.nameInput').eq(1).val(nameArr[4])
     $('.nameInput').eq(2).val(nameArr[1])
     $('.nameInput').eq(3).val(nameArr[2])
     $('.nameInput').eq(4).val(nameArr[3])
+    $('.D_province').text(xianXiQu)
+
     nameArr = []
 })
 // 修改地址
@@ -532,17 +558,17 @@ $('#D_tjbtn').bind('click', function (event) {
     $('.D_name').eq(2).text(newArr[3])
     $('.D_name').eq(3).text(newArr[4])
     $('.D_name').eq(4).text(newArr[1])
+
     var addressData = {
         id: DetailId,
         contact_name: newArr[0],
         mobile: newArr[1],
         street_id: AddId,
-        address: newArr[1],
+        address: newArr[2],
         user_remark: newArr[4],
         start_time: newArr[3]
     }
     orderDetail.Address(addressData, function (res) {
-
     }, function (err) {
 
     })
@@ -603,6 +629,7 @@ $('#D_XCanle').bind('click', function () {
     $('#D_FpgcsCz').empty()
 })
 // 这里是在修改服务的值 // 获取被选中的的服务的值
+
 $('#CzBtn').bind('click', function () {
     //手动重选重选服务
     if (String(stutes) == '20') {
@@ -611,6 +638,9 @@ $('#CzBtn').bind('click', function () {
             service_store_id: severId,
             quantity: severNum,
             sku_id: checkBoxId || ''
+        }
+        if(!severId||!severNum){
+            tipMsg('请选择需要的服务')
         }
         orderDetail.hangeService(yiServiceData, function (res) {
             window.location.href = "./OrderDetails.html?id=" + DetailId;
@@ -626,9 +656,12 @@ $('#CzBtn').bind('click', function () {
             quantity: severNum,
             sku_id: checkBoxId||''
         }
+        if(!severId||!severNum){
+            tipMsg('请选择需要的服务')
+            return
+        }
         orderDetail.hangeService(hangeServiceData, function (res) {
             $(that).siblings().each(function (index) {
-
                 if (index == SingleCzArr.length - 2) {
                     $(this).text(SingleCzArr[SingleCzArr.length - 1])
                 } else {

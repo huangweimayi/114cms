@@ -301,7 +301,6 @@ layui.use(['form','layer','laydate'], function(){
             $('#moreNum').on('click',function () {
                 changeNum(1)
             });
-
             //切换规格
             form.on('select(sku)', function(data){
                 _top.infor.addInfo.sku_id = data.value;
