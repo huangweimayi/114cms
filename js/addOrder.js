@@ -249,6 +249,7 @@ layui.use(['form','layer','laydate'], function(){
             form.on('select(street_id)', function(data){
                 _top.infor.addInfo.address_id = data.value.split('_')[0];
                 _top.infor.addInfo.address = data.value.split('_')[1];
+                events.ajaxDo.serviceOne(true);
                 $('#isHasUser').hide();
             });
 
