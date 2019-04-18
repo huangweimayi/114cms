@@ -318,8 +318,8 @@ $(function () {
         $('.D_name4').text(res.data.user_remark)//备注
         $('.D_name5').text(res.data.mobile)//电话
         // 商家人员
-        $('.D_People1').text(res.data.provider_name)//商家名称
-        $('.D_People2').text(res.data.provider_mobile)//商家联系人
+        $('.D_People1').text(res.data.store_name)//商家名称
+        $('.D_People2').text(res.data.store_phone)//商家联系人
         // 服务信息
         // 服务信息遍历新增不带操作的
         if (is_cancel != 1) {

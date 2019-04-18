@@ -231,6 +231,7 @@ layui.use(['form','layer','laydate'], function(){
                 $('#isHasUser').show();
                 _top.ajaxDo.addressSelect(_top.infor.user.address);
                 _top.infor.addInfo.address_id = '';
+                _top.infor.addInfo.address = '';
                 _top.ajaxDo.areaList($('#city1'))
             });
 
@@ -246,7 +247,8 @@ layui.use(['form','layer','laydate'], function(){
 
             //服务地址
             form.on('select(street_id)', function(data){
-                _top.infor.addInfo.address_id = data.value;
+                _top.infor.addInfo.address_id = data.value.split('_')[0];
+                _top.infor.addInfo.address = data.value.split('_')[1];
                 $('#isHasUser').hide();
             });
 
@@ -343,7 +345,7 @@ layui.use(['form','layer','laydate'], function(){
                 var str = '<option></option>';
                 if(addr){
                     $.each(addr,function (i, v) {
-                        str += '<option value="'+v.id+'">'+v.username+' '+v.tel+' '+v.full_address+'</option>'
+                        str += '<option value="'+v.id+'_'+v.address+'">'+v.username+' '+v.tel+' '+v.full_address+'</option>'
                     });
                     $('#street_id').html(str);
                     form.render('select');
