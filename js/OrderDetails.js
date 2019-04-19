@@ -51,7 +51,6 @@ function checkBox(isBox) {
     checkBoxId = $(isBox).parent().next().next().find("option:selected").attr('id')
     severId = $(isBox).parent().parent().attr('id')
     severNum = $(isBox).parent().next().next().next().next().next().children().val()
-
 }
 // 选择下拉框找DOM
 function select() {
@@ -81,16 +80,28 @@ function select() {
 }
 // 绑定change事件选中当前的改变的值
 $("#D_FpgcsCz").on("change",'.D_xianzhi',function(){
-    if($(this).parent().parent().children().eq(0).children().prop("checked")){
-        severNum=$(this).val()
-    }
+    // console.log('++++++++',busCode)
+    console.log('++++++++',$(this).attr('busCode'))
+
+        if($(this).val()>=$(this).attr('busCode')){
+            if($(this).parent().parent().children().eq(0).children().prop("checked")){
+                severNum= $(this).val()
+            }
+        }else {
+            if($(this).parent().parent().children().eq(0).children().prop("checked")){
+                severNum= $(this).attr('busCode')
+            }
+            tipMsg('认购数量不能低于起购数量')
+            $(this).val($(this).attr('busCode'))
+        }
+
 })
 // 服务信息第二模板
 function moBan(res) {
     var html = ' <tr>\n' +
         '                    <td>' + res.data.service.name + '</td>\n' +
         '                    <td>' + res.data.service.category_text + '</td>\n' +
-        '                    <td>' + res.data.service.dispose + '</td>\n' +
+        '                    <td>' + res.data.price_type_text + '</td>\n' +
         '                    <td class="D_much">￥' + res.data.service.unit_price + '</td>\n' +
         '                    <td class="D_num">' + res.data.service.quantity + '</td>\n' +
         '                </tr>'
@@ -135,7 +146,7 @@ function serviceList(List) {
                     '</td>\n' +
                     '                    <td>' + FpgcsCz[i].price_type_text + '</td>\n' +
                     '                    <td>￥' + FpgcsCz[i].price + '</td>\n' +
-                    '                    <td style="width: 140px"><input  maxlength="8" class="D_Ipt D_FwTable  D_xianzhi"  value="' + FpgcsCz[i].min_number + '" type="text"></td>\n' +
+                    '                    <td style="width: 140px"><input  maxlength="8" class="D_Ipt D_FwTable  D_xianzhi" busCode="' +FpgcsCz[i].min_number+'" value="' + FpgcsCz[i].min_number + '" type="text"></td>\n' +
                     '                </tr>'
                 )
                 for (var j = 0; j < FpgcsCz[i].sku_list.length; j++) {
@@ -280,6 +291,7 @@ $(function () {
         $('.orderlist6').text(res.data.create_time)//下单时间
         $('.orderlist7').text(res.data.total_amount)//订单价格
         $('.orderlist8').text(res.data.pay_type_text)//支付方式
+
         $('.orderlist11').text(res.data.user_mobile)//下单账号
         $('.orderlist22').text(res.data.service.category_text)//服务分类
         var Pice = res.data.request_info?res.data.request_info.price:''
@@ -328,7 +340,7 @@ $(function () {
                 var html = '  <tr>\n' +
                     '                    <td>' + res.data.service.name + '</td>\n' +
                     '                    <td>' + res.data.service.category_text + '</td>\n' +
-                    '                    <td>' + res.data.service.dispose + '</td>\n' +
+                    '                    <td>' + res.data.price_type_text + '</td>\n' +
                     '                    <td class="D_much">￥' + res.data.service.unit_price + '</td>\n' +
                     '                    <td class="D_num">' + res.data.service.quantity + '</td>\n' +
                     '                    <td class="D_CBtn">手动选择</td>\n' +
@@ -641,6 +653,7 @@ $('#CzBtn').bind('click', function () {
         }
         if(!severId||!severNum){
             tipMsg('请选择需要的服务')
+            return
         }
         orderDetail.hangeService(yiServiceData, function (res) {
             window.location.href = "./OrderDetails.html?id=" + DetailId;
