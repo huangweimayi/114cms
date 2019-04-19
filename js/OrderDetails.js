@@ -17,6 +17,7 @@ var area_id //地址id
 var category
 var xianXiDz
 var xianXiQu
+var shopId  //订单id
 // var busCode
 
 // 求服务信息总和的共用函数
@@ -268,6 +269,7 @@ $(function () {
         is_cancel = res.data.is_cancel
         area_id = res.data.area_id
         category = res.data.request_info?res.data.request_info.category:''
+        shopId=res.data.id
         //判断回访之后的完成
         if (is_feedback == 1) {
             $('#suerBtn').addClass('D_none')
@@ -623,8 +625,7 @@ $('#D_addChildCao').on('click', '.D_CBtn', function () {
     scropTop()
     $('#D_Cz').removeClass('D_none')
     var List = {
-        // street_id:area_id,
-        // category:category
+
     }
     serviceList(List)
     // 选择服务时复选变单选
@@ -715,7 +716,8 @@ $('#suerBtn').bind('click', function () {
         case '20':
             var List = {
                 street_id:area_id,
-                category:category
+                category:category,
+                order_id:shopId
             }
             serviceList(List)
             scropTop()
