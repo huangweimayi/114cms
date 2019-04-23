@@ -196,6 +196,14 @@ layui.use(['form','layer','laydate'], function(){
                 // _top.ajaxDo.userInfo('158821313109')
             });
 
+            //获取呼叫号码
+            $('#getNum').on('click',function () {
+                var num = call_getCallerNo();
+                $('#user_mobile').val(num);
+                _top.infor.addInfo.user_mobile = val;
+                _top.ajaxDo.userInfo(num)
+            });
+
             //服务内容
             $('#service_keyword').on('change',function () {
                 _top.infor.addInfo.service_keyword = $(this).val();
