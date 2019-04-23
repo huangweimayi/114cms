@@ -200,7 +200,7 @@ layui.use(['form','layer','laydate'], function(){
             $('#getNum').on('click',function () {
                 var num = call_getCallerNo();
                 $('#user_mobile').val(num);
-                _top.infor.addInfo.user_mobile = val;
+                _top.infor.addInfo.user_mobile = num;
                 _top.ajaxDo.userInfo(num)
             });
 
