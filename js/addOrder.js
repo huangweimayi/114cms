@@ -236,7 +236,7 @@ layui.use(['form','layer','laydate'], function(){
 
             //新增地址按钮
             $('#addAddr').on('click',function () {
-                callNo();
+                // callNo();
                 $('#isHasUser').show();
                 _top.ajaxDo.addressSelect(_top.infor.user.address);
                 _top.infor.addInfo.address_id = '';
