@@ -25,6 +25,12 @@
     margin: auto; 
     color:white;
 }
+.cur_p{
+    cursor:pointer;
+}
+.color_FB{
+    color:#FB3838;
+}
 .m_t10{
     margin-top: 10px;
 }
@@ -33,6 +39,9 @@
 }
 .m_t6{
     margin-top: 6px;
+}
+.m_l22{
+    margin-left:22px;
 }
 .m_t_30{
     margin-top: 30px;
@@ -51,6 +60,9 @@
 }
 .m_t20{
     margin-top: 20px;
+}
+.m_b6{
+    margin-bottom: 6px;
 }
 .m_l5r5{
     margin-left: 5px;

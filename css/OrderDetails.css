@@ -410,3 +410,8 @@ select{
 .D_span{
     display: inline-block;
 }
+#D_province{
+    line-height: 39px;
+    word-wrap:break-word;
+    word-break:break-all
+}

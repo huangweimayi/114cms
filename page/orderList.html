@@ -160,6 +160,10 @@
                 <div class="w_290 m_auto over_y" id="textarea_one"></div>
                 <div>
                 <div class="m_b30">
+                    <div class="overflow_h m_b6">
+                        <div class="f_l m_l22 color_FB">用户号码：<span id="user_phone"></span></div>
+                        <div class="f_l m_l22 color_FB cur_p" id='copy_phone'>复制按钮</div>
+                    </div>
                  <textarea name="desc" placeholder="" class="w_290 h_100" id="textarea"  style="display:none;margin: auto;"></textarea>
                 </div>
                 <button class="layui-btn" class="sbmit" id="sbmit_two" style="display:none;width: 64px;margin: auto;">提交</button>
@@ -191,7 +195,8 @@
         var select = '';//服务城市
         // var page = 1;
         var reVisitId = '';//点击回访得到id
-        var _page=''//dangqianyeshu 
+        var _page='';//dangqianyeshu 
+        var user_phone_num='';//回访里面复制的用户电话号码
         // var scoreStar=''//评论星数
         //显示城市
         var data_one = {};
@@ -221,11 +226,11 @@
                 mobile:shop_user
             }
             orderList.order(dataList, function (res) {
-                // console.log(res.data)
+                console.log(res.data)
                 var str = '';
                 for (var i = 0; i < res.data.list.length; i++) {
                     if (optionTab == 'cancel' || optionTab == 100) {
-                        str = '<button class="layui-btn layui-btn-normal reVisit" id=' + res.data.list[i].feedback+','+res.data.list[i].id+ '>回访</button>';
+                        str = '<button class="layui-btn layui-btn-normal reVisit" id=' + res.data.list[i].feedback+','+res.data.list[i].id+','+res.data.list[i].mobile+ '>回访</button>';
                     } else {
                         str = ''
                     }
@@ -251,6 +256,10 @@
                     $('#textarea').val('');
                    var _target=e.target.id.split(',');
                     reVisitId = _target[1];
+                    user_phone_num=_target[2]
+                    if(_target[2]){
+                        $('#user_phone').text(_target[2])
+                    }
                     if(_target[0]){
                         $('#textarea_one').text(_target[0]);
                         $('#textarea_one').css('display', 'block');
@@ -265,6 +274,31 @@
                     $('#visit').css('display', 'block');
                     $('#opsitio').css('display', 'block');
                 }))
+                //点击复制
+                $('#copy_phone').on('click',function(){
+                    var ssrsss = user_phone_num;//获取文本
+                    var flag = copyText(ssrsss); //传递文本
+                    flag ? layer.msg('复制成功') :  layer.msg('复制失败') ;
+                })
+                function copyText(text) {
+                var textarea = document.createElement("input");//创建input对象
+                var currentFocus = document.activeElement;//当前获得焦点的元素
+                document.body.appendChild(textarea);//添加元素
+                textarea.value = text;
+                textarea.focus();
+                if(textarea.setSelectionRange)
+                    textarea.setSelectionRange(0, textarea.value.length);//获取光标起始位置到结束位置
+                else
+                    textarea.select();
+                try {
+                    var flag = document.execCommand("copy");//执行复制
+                } catch(eo) {
+                    var flag = false;
+                }
+                document.body.removeChild(textarea);//删除元素
+                currentFocus.focus();
+                return flag;
+    }
                 //点击详情
                 $('.details').on('click', (function (e) { 
                     $(location).attr('href', 'OrderDetails.html?id=' + e.target.id)
