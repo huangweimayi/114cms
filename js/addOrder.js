@@ -52,12 +52,13 @@ layui.use(['form','layer','laydate'], function(){
         domEvent:function () {
             var _top = this;
 
-
-            var num = call_getCallerNo();
-            $('#user_mobile').val(num);
-            _top.infor.addInfo.user_mobile = num;
-            _top.ajaxDo.userInfo(num)
-
+            function callNo() {
+                var num = call_getCallerNo();
+                $('#user_mobile').val(num);
+                _top.infor.addInfo.user_mobile = num;
+                _top.ajaxDo.userInfo(num)
+            }
+            callNo();
             //上一页
             $(document).on('click','#last',function () {
                 if(_top.infor.currentPage == 1){
@@ -235,6 +236,7 @@ layui.use(['form','layer','laydate'], function(){
 
             //新增地址按钮
             $('#addAddr').on('click',function () {
+                callNo();
                 $('#isHasUser').show();
                 _top.ajaxDo.addressSelect(_top.infor.user.address);
                 _top.infor.addInfo.address_id = '';
