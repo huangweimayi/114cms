@@ -375,6 +375,8 @@ layui.use(['form','layer','laydate'], function(){
                         addr = _data.address;
                     events.infor.addressArr = addr;
                     events.infor.user = _data;
+                    $('#mobile').val(_data.mobile);
+                    events.infor.addInfo.mobile = _data.mobile;
                     if(addr.length>0){
                         events.ajaxDo.addressSelect(addr);
                         $('#isHasUser').hide()
@@ -425,6 +427,9 @@ layui.use(['form','layer','laydate'], function(){
             },
             //获取服务
             serviceOne:function (isOne,page) {
+                if(!events.infor.addInfo.category_id){
+                    return tipMsg('请选择服务分类')
+                }
                 var data = {
                     min_price:events.infor.addInfo.price.length>0?events.infor.addInfo.price[0]:'',
                     max_price:events.infor.addInfo.price.length>0?events.infor.addInfo.price[1]:'',
@@ -537,7 +542,7 @@ layui.use(['form','layer','laydate'], function(){
                         });
                         $('#sku').html(str);
                         form.render('select');
-                        events.data.addInfo.sku_id = sku[0].id
+                        events.infor.addInfo.sku_id = sku[0].id
                     }
                 }else{
                     $('#total_price').text('');
