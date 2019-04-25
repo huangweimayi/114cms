@@ -53,10 +53,10 @@ layui.use(['form','layer','laydate'], function(){
             var _top = this;
 
             function callNo() {
-                var num = call_getCallerNo();
+                /*var num = call_getCallerNo();
                 $('#user_mobile').val(num);
                 _top.infor.addInfo.user_mobile = num;
-                _top.ajaxDo.userInfo(num)
+                _top.ajaxDo.userInfo(num)*/
             }
             callNo();
             //上一页
@@ -322,6 +322,13 @@ layui.use(['form','layer','laydate'], function(){
                         _top.infor.servicePrice = v.price.split('￥')[1];
                     }
                 });
+                var num = Number($('#s_num').val());
+                _top.infor.addInfo.quantity = num;
+                if(_top.infor.current_service.price_type == 1){
+                    $('#total_price').text(_top.infor.current_service.price)
+                }else{
+                    $('#total_price').text(Number(_top.infor.servicePrice)*num)
+                }
             });
 
             //取消
@@ -513,8 +520,18 @@ layui.use(['form','layer','laydate'], function(){
                         $('#total_price').text(Number(_data.price)*Number(_data.min_number))
                     }
                     var sku = _data.sku_list;
-                    var str = '<option value=""></option>';
+                    var str = '';
                     if(sku && sku.length>0){
+                        sku.sort(function(a,b){
+                            if(Number(a.price.split('￥')[1])<Number(b.price.split('￥')[1])){
+                                return -1;
+                            }
+                            if(Number(a.price.split('￥')[1])>Number(b.price.split('￥')[1])){
+                                return 1;
+                            }
+                            return 0;
+                        })
+                        console.log(sku)
                         $.each(sku,function (i, v) {
                             str += '<option value="'+v.id+'">'+v.name +' '+v.price+'</option>'
                         });
