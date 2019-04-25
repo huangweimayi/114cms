@@ -536,7 +536,8 @@ layui.use(['form','layer','laydate'], function(){
                             str += '<option value="'+v.id+'">'+v.name +' '+v.price+'</option>'
                         });
                         $('#sku').html(str);
-                        form.render('select')
+                        form.render('select');
+                        events.data.addInfo.sku_id = sku[0].id
                     }
                 }else{
                     $('#total_price').text('');
