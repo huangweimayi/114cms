@@ -13,63 +13,7 @@ layui.use(['form','layer','laydate'], function(){
   var layer = layui.layer;
   var events = {
     init:function () {
-      // 百度地图API功能
-      function mapFun(area) {
-        function G(id) {
-          return document.getElementById(id);
-        }
-        var map = new BMap.Map("l-map");
-        map.centerAndZoom(area,12);                   // 初始化地图,设置城市和地图级别。
-
-        var ac = new BMap.Autocomplete(    //建立一个自动完成的对象
-          {"input" : "suggestId"
-            ,"location" : map
-          });
-
-        ac.addEventListener("onhighlight", function(e) {  //鼠标放在下拉列表上的事件
-          var str = "";
-          var _value = e.fromitem.value;
-          var value = "";
-          if (e.fromitem.index > -1) {
-            value = _value.province +  _value.city +  _value.district +  _value.street +  _value.business;
-          }
-          str = "FromItem<br />index = " + e.fromitem.index + "<br />value = " + value;
-
-          value = "";
-          if (e.toitem.index > -1) {
-            _value = e.toitem.value;
-            value = _value.province +  _value.city +  _value.district +  _value.street +  _value.business;
-          }
-          str += "<br />ToItem<br />index = " + e.toitem.index + "<br />value = " + value;
-          G("searchResultPanel").innerHTML = str;
-          events.infor.addInfo.address =  _value.district +  _value.street +  _value.business;
-        });
-
-        var myValue;
-        ac.addEventListener("onconfirm", function(e) {    //鼠标点击下拉列表后的事件
-          var _value = e.item.value;
-          myValue = _value.province +  _value.city +  _value.district +  _value.street +  _value.business;
-          G("searchResultPanel").innerHTML ="onconfirm<br />index = " + e.item.index + "<br />myValue = " + myValue;
-
-          setPlace();
-        });
-
-        function setPlace(){
-          map.clearOverlays();    //清除地图上所有覆盖物
-          function myFun(){
-            var pp = local.getResults().getPoi(0).point;    //获取第一个智能搜索的结果
-            events.infor.addInfo.lat = pp.lat;
-            events.infor.addInfo.lng = pp.lng;
-            map.centerAndZoom(pp, 18);
-            map.addOverlay(new BMap.Marker(pp));    //添加标注
-          }
-          var local = new BMap.LocalSearch(map, { //智能搜索
-            onSearchComplete: myFun
-          });
-          local.search(myValue);
-        }
-      }
-      mapFun('北京')
+      // mapFun('北京')
       this.domEvent();
       this.ajaxDo.categorySelect($('#category1'),0);
       this.ajaxDo.typeSelect();
@@ -348,7 +292,9 @@ layui.use(['form','layer','laydate'], function(){
         _top.infor.addInfo.city_id = val;
       }*/
       form.on('select(city1)', function(data){
-        _top.infor.addInfo.city_id = data.value;
+        _top.infor.addInfo.city_id = data.value.split('_')[0];
+        _top.ajaxDo.mapFun(data.value.split('_')[1]);
+        console.log(data)
         // getCity($('#city2'),1,data.value);
         // $('#city3').html('<option value=""></option>');
         // form.render();
@@ -436,6 +382,62 @@ layui.use(['form','layer','laydate'], function(){
       });
     },
     ajaxDo:{
+      // 百度地图API功能
+      mapFun:function(area) {
+        function G(id) {
+          return document.getElementById(id);
+        }
+        var map = new BMap.Map("l-map");
+        map.centerAndZoom(area,12);                   // 初始化地图,设置城市和地图级别。
+
+        var ac = new BMap.Autocomplete(    //建立一个自动完成的对象
+          {"input" : "suggestId"
+            ,"location" : map
+          });
+
+        ac.addEventListener("onhighlight", function(e) {  //鼠标放在下拉列表上的事件
+          var str = "";
+          var _value = e.fromitem.value;
+          var value = "";
+          if (e.fromitem.index > -1) {
+            value = _value.province +  _value.city +  _value.district +  _value.street +  _value.business;
+          }
+          str = "FromItem<br />index = " + e.fromitem.index + "<br />value = " + value;
+
+          value = "";
+          if (e.toitem.index > -1) {
+            _value = e.toitem.value;
+            value = _value.province +  _value.city +  _value.district +  _value.street +  _value.business;
+          }
+          str += "<br />ToItem<br />index = " + e.toitem.index + "<br />value = " + value;
+          G("searchResultPanel").innerHTML = str;
+          events.infor.addInfo.address =  _value.district +  _value.street +  _value.business;
+        });
+
+        var myValue;
+        ac.addEventListener("onconfirm", function(e) {    //鼠标点击下拉列表后的事件
+          var _value = e.item.value;
+          myValue = _value.province +  _value.city +  _value.district +  _value.street +  _value.business;
+          G("searchResultPanel").innerHTML ="onconfirm<br />index = " + e.item.index + "<br />myValue = " + myValue;
+
+          setPlace();
+        });
+
+        function setPlace(){
+          map.clearOverlays();    //清除地图上所有覆盖物
+          function myFun(){
+            var pp = local.getResults().getPoi(0).point;    //获取第一个智能搜索的结果
+            events.infor.addInfo.lat = pp.lat;
+            events.infor.addInfo.lng = pp.lng;
+            map.centerAndZoom(pp, 18);
+            map.addOverlay(new BMap.Marker(pp));    //添加标注
+          }
+          var local = new BMap.LocalSearch(map, { //智能搜索
+            onSearchComplete: myFun
+          });
+          local.search(myValue);
+        }
+      },
       //渲染 服务地址下拉框
       addressSelect:function(addr){
         var str = '<option></option>';
@@ -645,7 +647,7 @@ layui.use(['form','layer','laydate'], function(){
           var data = res.data.list;
           var str = '<option value=""></option>';
           $.each(data,function (i,v) {
-            str += '<option value="'+v.id+'">'+v.title+'</option>'
+            str += '<option value="'+v.id+'_'+v.title+'">'+v.title+'</option>'
           });
           dom.html(str);
           form.render('select');
