@@ -29,7 +29,6 @@ layui.use(['form','layer','laydate'], function(){
         ac.addEventListener("onhighlight", function(e) {  //鼠标放在下拉列表上的事件
           var str = "";
           var _value = e.fromitem.value;
-          console.log(_value)
           var value = "";
           if (e.fromitem.index > -1) {
             value = _value.province +  _value.city +  _value.district +  _value.street +  _value.business;

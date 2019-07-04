@@ -219,7 +219,7 @@
       <div class="layui-form-item">
         <label class="layui-form-label" style="padding: 9px 9px 9px 0;width: 100px">优惠券：</label>
         <div class="layui-input-inline">
-          <select name="couponList" id="couponList" >
+          <select name="couponList" id="couponList" lay-filter="couponList">
             <option value=""></option>
           </select>
         </div>
@@ -227,7 +227,7 @@
       <div class="layui-form-item">
         <label class="layui-form-label" style="padding: 9px 9px 9px 0;width: 100px">优惠码：</label>
         <div class="layui-input-inline">
-          <input type="text" placeholder="请输入优惠码" autocomplete="off" class="layui-input">
+          <input id="coupon_code" type="text" placeholder="请输入优惠码" autocomplete="off" class="layui-input">
         </div>
       </div>
     </div>
