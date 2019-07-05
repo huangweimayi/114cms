@@ -343,8 +343,14 @@ layui.use(['form','layer','laydate'], function(){
         _top.infor.addInfo.sku_id = data.value;
         $.each(_top.infor.current_service.sku_list,function (i, v) {
           if(v.id == data.value){
-            $('#s_price').text(v.price.split('￥')[1]);
-            _top.infor.servicePrice = v.price.split('￥')[1];
+            if(v.price.split('￥')[0] == '$'){
+              $('#s_price').text(v.price.split('￥')[1]);
+              _top.infor.servicePrice = v.price.split('￥')[1];
+            }else{
+              $('#s_price').text(v.price.split('￥')[0]);
+              _top.infor.servicePrice = v.price.split('￥')[0];
+
+            }
           }
         });
         var num = Number($('#s_num').val());
