@@ -453,7 +453,7 @@ layui.use(['form','layer','laydate'], function(){
       userInfo:function(mobile){
         _hw.userInfo({mobile:mobile},function(res){
           var _data = res.data,
-            addr = _data.address;
+            addr = _data.address_list;
           if(res.data.id){
             events.infor.userId = _data.id
             events.infor.addressArr = addr;
