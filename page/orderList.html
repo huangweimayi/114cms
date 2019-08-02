@@ -296,7 +296,7 @@
                 var str = '';
                 for (var i = 0; i < res.data.list.length; i++) {
                     if (optionTab == 'cancel' || optionTab == 100) {
-                        str = '<button class="layui-btn layui-btn-normal reVisit" price='+res.data.list[i].amount+' id=' + res.data.list[i].feedback + ',' + res.data.list[i].id + ',' + res.data.list[i].mobile + '>回访</button>';
+                        str = '<button class="layui-btn layui-btn-normal reVisit" price='+res.data.list[i].pay_amount+' id=' + res.data.list[i].feedback + ',' + res.data.list[i].id + ',' + res.data.list[i].mobile + '>回访</button>';
                     } else {
                         str = ''
                     }
