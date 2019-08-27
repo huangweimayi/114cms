@@ -1,0 +1,67 @@
+.D_title{
+  padding:10px 0px ;
+    border-bottom:1px solid #000000 ;
+    font-size: 25px;
+    font-weight: 600;
+    width: 1000px;
+    margin: auto;
+}
+.fs20{
+   font-size: 20px;
+}
+.D_of{
+    overflow: hidden;
+}
+.fw{
+    font-weight: 600;
+}
+.border{
+    border-bottom: 1px solid #000000;
+}
+.auto{
+    margin: auto;
+}
+#D_body{
+    margin-top: 40px;
+    margin-left: 40px;
+}
+.D_detail{
+    width: 1000px;
+    margin: auto;
+    border-bottom: 5px solid darkgray;
+    margin-top: 40px;
+}
+.D_add{
+    width: 1000px;
+    padding-bottom:10px ;
+}
+.D_border{
+    border: none;
+
+}
+.D_content{
+    overflow: hidden;
+    margin-bottom: 20px;
+}
+.D_content_one{
+    float:left;
+}
+.D_content_two{
+    float:right;
+}
+.D_content_one div,.D_content_two div{
+    padding: 10px;
+}
+.D_content_one div span:nth-child(2),.D_content_two div span:nth-child(2){
+    margin-left: 10px;
+}
+.btn{
+    width: 100px;
+    text-align: center;
+    padding: 10px;
+    background: rgba(169, 169, 169, 0.98);
+}
+.D_w{
+    display: inline-block;
+    width: 200px;
+}

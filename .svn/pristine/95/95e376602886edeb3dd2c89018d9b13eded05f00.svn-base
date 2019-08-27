@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="../css/OrderDetails.css">
+</head>
+<body>
+<div id="D_body">
+    <div>
+        <div class="D_title fs20">订单信息</div>
+        <div class="D_detail">
+            <div class="D_content">
+                <div class="D_content_one">
+                    <div>
+                        <span>订单号:</span><span>123123123123123123123</span>
+                    </div>
+                    <div>
+                        <span>下单方式:</span><span>语音下单</span>
+                    </div>
+                    <div>
+                        <span>价格类型:</span><span>定金</span>
+                    </div>
+                    <div>
+                        <span>支付状态:</span><span>未支付</span>
+                    </div>
+                </div>
+                <div class="D_content_two">
+                    <div>
+                        <span>订单号状态:</span><span>待商家接单</span>
+                    </div>
+                    <div>
+                        <span>下单时间:</span><span>2018-12-12  15:30</span>
+                    </div>
+                    <div>
+                        <span>订单价格:</span><span>￥123.00</span>
+                    </div>
+                    <div>
+                        <span>支付方式:</span><span>支付宝</span>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        <div class="D_detail D_border">
+            <div class="D_content">
+                <div class="D_content_one">
+                    <div>
+                        <span>下单账号:</span><span>123456798</span>
+                    </div>
+                    <div>
+                        <span>服务分类:</span><span>家电维系-电视维修</span>
+                    </div>
+                    <div>
+                        <span>服务价格:</span><span>30-50元</span>
+                    </div>
+                    <div>
+                        <span>服务备注:</span><span>服务备注服务备注服务备注</span>
+                    </div>
+                </div>
+                <div class="D_content_two">
+                    <div>
+                        <span>账号归属地:</span><span>四川</span>
+                    </div>
+                    <div>
+                        <span>价格类型:</span><span>一口价</span>
+                    </div>
+                    <div>
+                        <span>服务内容:</span><span>服务内服服务内容</span>
+                    </div>
+                    <div>
+                        <span>服务标签:</span><span>标签 | 标签 | 标签</span>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <div>
+        <div class="D_add D_of auto border">
+            <div class="D_content_one fs20 fw">用户地址</div>
+            <div class="D_content_two btn">编辑</div>
+        </div>
+        <div class="D_detail D_border">
+            <div class="D_content">
+                <div class="D_content_one">
+                    <div>
+                        <span>联系人:</span><span>张三</span>
+                    </div>
+                    <div>
+                        <span>服务地址:</span><span class="D_w">斯柯达就分手了看风景是的玩儿翁二翁玩儿翁二玩儿翁二玩儿玩儿玩儿翁二认为绕弯儿玩儿发送到开了房间可是考虑到房价克里斯多夫看水利局分克里斯积分</span>
+                    </div>
+                    <div>
+                        <span>服务时间:</span><span>2018-12-12   12:00-13:00</span>
+                    </div>
+                    <div>
+                        <span>备注:</span><span>备案制聚少离多积分克里斯九分裤就是打开了山东矿机福克斯</span>
+                    </div>
+                </div>
+                <div class="D_content_two">
+                    <div>
+                        <span>联系电话:</span><span>12345678911</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

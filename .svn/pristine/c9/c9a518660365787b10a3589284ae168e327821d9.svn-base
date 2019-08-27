@@ -1,0 +1,543 @@
+var nameArr = []
+var newArr = []
+var id = 1
+var SingleCzArr = []//储存服务弹框的选中的值
+var numArr = []
+var numArr1 = []
+
+// 求服务信息总和的共用函数
+function Sum() {
+    $('.D_much').each(function () {
+        numArr.push($(this).text().split('￥')[1])
+    })
+    $('.D_num').each(function () {
+        numArr1.push($(this).text())
+    })
+    var zonghe = 0
+    for (var i = 0; i < numArr.length; i++) {
+        zonghe = zonghe + (parseFloat(numArr[i]) * parseInt(numArr1[i]))
+    }
+    var sumHtml = '￥' + zonghe.toFixed(2)
+    $('.D_sum').html(sumHtml)
+    numArr = []
+    numArr1 = []
+}
+
+// 初始化
+$(function () {
+    function parseUrl() {
+        var url = location.href;
+        var i = url.indexOf('?');
+        if (i == -1) return 0;
+        var querystr = url.substr(i + 1);
+        var arr1 = querystr.split('&');
+        var arr2 = new Object();
+        for (i in arr1) {
+            var ta = arr1[i].split('=');
+            arr2[ta[0]] = ta[1];
+        }
+        return arr2;
+    }
+
+    var v = parseUrl()
+
+    // 判断进来是哪个页面
+    switch (Number(v.id)) {
+        case 2:
+            //待商家指派
+            $('#suerBtn').html('分配工程师')
+            id = v.id
+            break;
+        case 3:
+            // 待商家发出
+            $('#suerBtn').html('确认出发')
+
+            id = v.id
+            $("#newEngineer").removeClass("D_none");
+            break;
+        case 4:
+            // 带到达
+            $('#suerBtn').html('确认到达')
+            id = v.id
+            $("#newEngineer").addClass("D_none");
+            break;
+        case 5:
+            // 带服务
+            $('#suerBtn').html('开始服务')
+            id = v.id
+            break;
+        case 6:
+            // 待确认
+            $('#suerBtn').html('确认完成服务')
+            $('#D_Bcj').removeClass('D_none')
+            id = v.id
+            //是否显示取消订单按钮
+            $('#cancelBtn').addClass('D_none')
+            break;
+        case 7:
+            // 待补差价
+            $('#suerBtn').html('确认支付')
+            $('#D_Bcj').removeClass('D_none')
+            id = v.id
+            //是否显示取消订单按钮
+            $('#cancelBtn').addClass('D_none')
+            break;
+        case 8:
+            // 待回访
+            $('#suerBtn').html('确认回访')
+            $('#D_Bcj').removeClass('D_none')
+            id = v.id
+            //是否显示取消订单按钮
+            $('#cancelBtn').addClass('D_none')
+            break;
+        case 9:
+            // 已完成
+            $('#suerBtn').addClass('D_none')
+            id = v.id
+            //是否显示取消订单按钮
+            $('#cancelBtn').addClass('D_none')
+            $('#D_Bcj').removeClass('D_none')
+            break;
+        case 10:
+            // 已取消订单
+            $('#suerBtn').addClass('D_none')
+            id = v.id
+            //是否显示取消订单按钮
+            $('#cancelBtn').addClass('D_none')
+            $('#D_Bcj').removeClass('D_none')
+            break;
+        case 11:
+            // 异常订单
+            $('#suerBtn').html('手动重选服务')
+            $('#D_Qd').addClass('D_none')
+            id = v.id
+            break;
+        default:
+            //待商家接单
+            $('#D_Qd').addClass('D_none')
+            $('#oneBtn').removeClass('D_none')
+            $('#twoBtn').removeClass('D_none')
+            $('#D_FwOne').addClass('D_none')
+            $('#D_FwTwo').removeClass('D_none')
+            break
+    }
+    // // 详情接口
+    var dataOrder = {
+        id: 677
+    }
+    orderDetail.order(dataOrder, function (res) {
+        $('.orderlist1').text(res.data.number)//订单号
+        $('.orderlist2').text(res.data.status_text)//A下单方式
+        $('.orderlist3').text(res.data.price_type_text)//定金
+        $('.orderlist4').text(res.data.pay_status_text)//订单状态
+        $('.orderlist5').text(res.data.status_text)//支付状态
+        // switch (Number(res.data.status)) {
+        //     case 100:
+        //         $('.orderlist5').text('已完成')//支付状态
+        //         break
+        //     case 90:
+        //         $('.orderlist5').text('补差价')//支付状态
+        //         break
+        //     case 80:
+        //         $('.orderlist5').text('待确认')//支付状态
+        //         break
+        //     case 70:
+        //         $('.orderlist5').text('待服务')//支付状态
+        //         break
+        //     case 60:
+        //         $('.orderlist5').text('待到达')//支付状态
+        //         break
+        //     case 50:
+        //         $('.orderlist5').text('待出发')//支付状态
+        //         break
+        //     case 40:
+        //         $('.orderlist5').text('待商家指派')//支付状态
+        //         break
+        //     case 30:
+        //         $('.orderlist5').text('待商家接单')//支付状态
+        //         break
+        //     case 20:
+        //         $('.orderlist5').text('等待分配商家')//支付状态
+        //         break
+        //     case 10:
+        //         $('.orderlist5').text('待支付')//支付状态
+        //         break
+        // }
+
+        $('.orderlist6').text(res.data.create_time)//下单时间
+        $('.orderlist7').text(res.data.total_amount)//订单价格
+        $('.orderlist8').text(res.data.pay_type_text)//支付方式
+
+        $('.orderlist11').text(res.data.user_mobile)//下单账号
+        $('.orderlist22').text(res.data.service_name)//服务分类
+        var Pice = JSON.parse(res.data.request_info.price)
+        var servicePice = Pice[0] + '-' + Pice[1] + '元'
+
+        $('.orderlist33').text(servicePice)//服务价格
+        $('.orderlist44').text(res.data.user_remark)//服务备注
+        $('.orderlist66').text(res.data.price_type_tex)//价格类型
+        $('.orderlist77').text(res.data.service_name)//服务内容
+
+        //获取用户地址class
+        $('.D_name1').text(res.data.contact_name)//联系人
+        $('.D_name2').text(res.data.full_address)//服务地址
+        $('.D_name3').text(res.data.service_time)//服务时间
+        $('.D_name4').text(res.data.user_remark)//备注
+        $('.D_name5').text(res.data.mobile)//电话
+        // 商家人员
+        $('.D_People1').text(res.data.provider_name)//商家名称
+        $('.D_People2').text(res.data.provider_mobile)//商家联系人
+        // 服务信息
+        // 服务信息遍历新增不带操作的
+        if (v.id) {
+            var html = ' <tr>\n' +
+                '                    <td>' + res.data.service.name + '</td>\n' +
+                '                    <td>' + res.data.service.category_text + '</td>\n' +
+                '                    <td>' + res.data.service.dispose + '</td>\n' +
+                '                    <td class="D_much">￥' + res.data.service.unit_price + '</td>\n' +
+                '                    <td class="D_num">' + res.data.service.quantity + '</td>\n' +
+                '                </tr>'
+            $('#D_addChild').append(html)
+        }
+        else {
+            // 手动操作服务遍历操作数据i
+
+
+            var html = '  <tr>\n' +
+                '                    <td>' + res.data.service.name + '</td>\n' +
+                '                    <td>' + res.data.service.category_text + '</td>\n' +
+                '                    <td>' + res.data.service.dispose + '</td>\n' +
+                '                    <td class="D_much">￥' + res.data.service.unit_price + '</td>\n' +
+                '                    <td class="D_num">' + res.data.service.quantity + '</td>\n' +
+                '                    <td class="D_CBtn">手动选择</td>\n' +
+                '                </tr>'
+            $('#D_addChildCao').append(html)
+            Sum()
+        }
+        // 财务信息
+        $('.D_caiwu1').text(res.data.service_amount)//服务金额
+        $('.D_caiwu2').text(res.data.coupon_amount)//优惠券
+        $('.D_caiwu3').text(res.data.total_amount)//应付价格
+        $('.D_caiwu4').text(res.data.platform_amount)//平台抽成
+        $('.D_caiwu5').text(res.data.store_amount)//商家结算
+        $('.D_caiwu6').text(res.data.operator_amount)//渠道运营商
+        $('.D_caiwu7').text(res.data.dispose)//定金金额
+        $('.D_caiwu8').text(res.data.detail_amount)//补差价
+        $('.D_caiwu9').text(res.data.pay_amount)//实付金额
+        // 订单备注
+        $('#D_bzContent').text(res.data.remark)
+        // 遍历操作纪律数据i
+        var caozouarr = res.data.op_list
+        for (var i = 0; i < caozouarr.length; i++) {
+            var html = ' <tr>\n' +
+                '                    <td>' + caozouarr[i].content + '</td>\n' +
+                '                    <td> ' + caozouarr[i].operator_text + '</td>\n' +
+                '                    <td>' + caozouarr[i].update_time + '</td>\n' +
+                '                </tr>'
+            $('#D_caozuo').append(html)
+        }
+        //补差价服务
+        var chajia = res.data.detail
+        var chajiaNum = 0
+        for (var i = 0; i < chajia.length; i++) {
+            var html = ' <tr>\n' +
+                '                    <td>' + chajia[i].name + '</td>\n' +
+                '                    <td> ' + chajia[i].is_parts + '</td>\n' +
+                '                    <td>' + chajia[i].price + '</td>\n' +
+                '                </tr>'
+            $('#D_Bchajia').append(html)
+            chajiaNum = chajiaNum + Number(chajia[i].price)
+        }
+        var chajiaHtml = '￥' + chajiaNum
+        $('#D_bcjSum').text(chajiaHtml)
+    }, function (err) {
+        console.log('woshi', err)
+    })
+
+
+    // 初始化服务弹框信息
+    var FpgcsCz = [1, 2, 3]
+
+    for (var i = 0; i < FpgcsCz.length; i++) {
+        var html = '<tr>\n' +
+            '                    <td><input class="D_ridio" type="checkbox" name="SingleCz" lay-skin="primary"></td>\n' +
+            '                    <td>特殊服务111' + i + '</td>\n' +
+            '                    <td>空调-跑路</td>\n' +
+            '                    <td>定金</td>\n' +
+            '                    <td>￥130.00</td>\n' +
+            '                    <td>2</td>\n' +
+            '                </tr>'
+        $('#D_FpgcsCz').append(html)
+
+    }
+    // 选择服务时复选变单选
+    $("input[name='SingleCz']").on('click', function () {
+        // 取消全部checkbox的选中
+        $("input[name='SingleCz']").prop("checked", false);
+        // 设置选中当前
+        $(this).prop("checked", true);
+        $(this).parent().siblings().each(function () {
+            SingleCzArr.push($(this).text())
+        })
+    });
+
+});
+// 时间选择器
+layui.use('laydate', function () {
+    var laydate = layui.laydate;
+    // laydate.skin(lib)
+
+    var start = {
+        format: 'YYYY-MM-DD hh:mm:ss',
+        istime: true,
+        issure: false,
+        isclear: false,
+        fixed: true
+    };
+    document.querySelector('#test5').onclick = function () {
+        start.elem = this;
+        laydate(start);
+    }
+
+})
+
+$('.nameInput').bind('focus', function () {
+    $(this).siblings().addClass('D_none')
+})
+// 打开弹框
+$('#oneBtn').bind('click', function () {
+    $("#D_none").removeClass("D_none");
+    $('.D_name').each(function () {
+        $(this).text()
+        nameArr.push($(this).text())
+    });
+    $('.nameInput').eq(0).val(nameArr[0])
+    $('.nameInput').eq(1).val(nameArr[4])
+    $('.nameInput').eq(2).val(nameArr[1])
+    $('.nameInput').eq(3).val(nameArr[2])
+    $('.nameInput').eq(4).val(nameArr[3])
+    nameArr = []
+})
+$('#D_tjbtn').bind('click', function (event) {
+    event.preventDefault();
+    $('.nameInput').each(function () {
+        newArr.push($(this).val())
+    })
+    if ($('.nameInput').eq(0).val() == '') {
+        $('.D_tishi1').removeClass('D_none')
+        return
+    }
+    else if ($('.nameInput').eq(1).val()  == '') {
+        console.log(newArr[1])
+        $('.D_tishi2').removeClass('D_none')
+        return
+    }
+    else if ($('.nameInput').eq(2).val()  == '') {
+        $('.D_tishi3').removeClass('D_none')
+        return
+    }
+    else if ($('.nameInput').eq(3).val()  == '') {
+        $('.D_tishi4').removeClass('D_none')
+        return
+    }
+    else if ($('.nameInput').eq(4).val()  == '') {
+        $('.D_tishi5').removeClass('D_none')
+        return
+    } else {
+        console.log(111)
+        $('.D_name').eq(0).text(newArr[0])
+        $('.D_name').eq(1).text(newArr[2])
+        $('.D_name').eq(2).text(newArr[3])
+        $('.D_name').eq(3).text(newArr[4])
+        $('.D_name').eq(4).text(newArr[1])
+        $("#D_none").addClass("D_none");
+        newArr = []
+    }
+
+})
+$('#twoBtn').bind('click', function () {
+    $("#D_none1").removeClass("D_none");
+    $('.bjInput').val($('#D_bzContent').html())
+})
+$('#D_tjbtn1').bind('click', function (event) {
+    event.preventDefault();
+    $('#D_bzContent').html($('.bjInput').val())
+    $("#D_none1").addClass("D_none");
+
+})
+// 关闭弹框
+$('#I_con').bind('click', function () {
+    $("#D_none").addClass("D_none");
+})
+$('#I_con1').bind('click', function () {
+    $("#D_none1").addClass("D_none");
+})
+
+// 手动选择服务打开弹窗
+var that //存储当前的this
+$('#D_addChildCao').on('click', '.D_CBtn', function () {
+    $('#D_Cz').removeClass('D_none')
+    // 选择服务时复选变单选
+    $("input[name='SingleCz']").prop("checked", false);//初始化每次点击input的checked的值
+    that = this
+})
+
+
+// 关闭服务弹框
+$('#D_EngineerCz').bind('click', function () {
+    $('#D_Cz').addClass('D_none')
+})
+
+// 这里是在修改服务的值 // 获取被选中的的服务的值
+$('#CzBtn').bind('click', function () {
+    $(that).siblings().each(function (index) {
+        $(this).text(SingleCzArr[index])
+    })
+    $('#D_Cz').addClass('D_none')
+    Sum()
+    SingleCzArr = []
+})
+//重选服务
+$("input[name='D_Choose']").on('click', function () {
+    // 取消全部checkbox的选中
+    $("input[name='D_Choose']").prop("checked", false);
+    // 设置选中当前
+    $(this).prop("checked", true);
+});
+$('#I_Engineer').bind('click', function () {
+    $('#Engineer').addClass('D_none')
+
+})
+// 确认订单与 分配工程师、
+$('#suerBtn').bind('click', function () {
+
+    switch (Number(id)) {
+        case 1:
+            window.location.href = "./OrderDetails.html?id=2";
+            break;
+        case 2:
+            $('#Engineer').removeClass('D_none')
+
+            break;
+        case 3:
+            window.location.href = "./OrderDetails.html?id=4";
+            break;
+        case 4:
+            window.location.href = "./OrderDetails.html?id=5";
+            break;
+        case 5:
+            window.location.href = "./OrderDetails.html?id=6";
+            break;
+        case 6:
+            $('#over').removeClass('D_none')
+            break;
+        case 7:
+            // $('#over').removeClass('D_none')
+            window.location.href = "./OrderDetails.html?id=8"
+            break;
+        case 8:
+            $('#D_Win').removeClass('D_none')
+            break;
+        case 11:
+            $('#D_Ycover').removeClass('D_none')
+            break;
+    }
+
+})
+// 从新分配工程师
+$('#newEngineer').bind('click', function () {
+    $('#Engineer').removeClass('D_none')
+})
+//跳转带出发
+$('#EngineerBtn').bind('click', function () {
+    switch (Number(id)) {
+        case 2:
+            window.location.href = "./OrderDetails.html?id=3";
+            break;
+        case 3:
+            $('#Engineer').addClass('D_none')
+    }
+
+})
+// 新增
+$('#D_FwBtn').bind('click', function () {
+    var html = ' <tr>\n' +
+        '                            <td>\n' +
+        '                                <input class="D_FwCheck" type="checkbox" value="配件" title="配件"/>\n' +
+        '                                <span>配件</span>\n' +
+        '                            </td>\n' +
+        '                            <td><input class="D_Ipt" type="text"></td>\n' +
+        '                            <td><input class="D_Ipt" type="text"></td>\n' +
+        '                            <td><i class="D_IconFw layui-icon ">&#x1006;</i></td>\n' +
+        '                        </tr>'
+    $('#D_addTable').append(html)
+})
+// 删除j节点
+$('#D_addTable').on('click', 'i', function () {
+    $(this).parent().parent().remove()
+})
+// 关闭服务弹框
+$('#O_Engineer').bind('click', function () {
+    $('#over').addClass('D_none')
+})
+//确认完成弹框按钮
+$('#D_child').bind('click', function () {
+    window.location.href = "./OrderDetails.html?id=7";
+})
+//评星
+// var inputBox = $('.comments-list').find('input');
+$('.eval-star span').raty({
+    click: function (score) {
+        console.log(score)
+        $('.eval-star input[name="star"]').val(score);
+    },
+    starOff: '../image/star_b_grray.jpg',
+    starOn: '../image/star_b_red.jpg',
+    starHalf: '../image/star_b_helf.jpg',
+    half: true
+});
+
+//设置input,textarea默认值
+if (!('placeholder' in document.createElement('input'))) {
+    $('input[placeholder],textarea[placeholder]').each(function () {
+        var that = $(this),
+            text = that.attr('placeholder');
+        // console.log(text);
+        if (that.val() === "") {
+            that.val(text).addClass('placeholder');
+        }
+        that.focus(function () {
+            if (that.val() === text) {
+                that.val("").removeClass('placeholder');
+            }
+        }).blur(function () {
+            if (that.val() === "") {
+                that.val(text).addClass('placeholder');
+            }
+        }).closest('form').submit(function () {
+            if (that.val() === text) {
+                that.val('');
+            }
+        });
+    });
+}
+$('#cancelBtn').bind('click', function () {
+    window.location.href = "./OrderDetails.html?id=9";
+})
+//确认完成
+$('.sbmit').bind('click', function () {
+    window.location.href = "./OrderDetails.html?id=10";
+})
+// 暂时跳转异常页面
+$('#close').bind('click', function () {
+    window.location.href = "./OrderDetails.html?id=11";
+})
+
+
+// 选择工程师时复选变单选
+$("input[name='SingleElection']").on('click', function () {
+    // 取消全部checkbox的选中
+    $("input[name='SingleElection']").prop("checked", false);
+    // 设置选中当前
+    $(this).prop("checked", true);
+});

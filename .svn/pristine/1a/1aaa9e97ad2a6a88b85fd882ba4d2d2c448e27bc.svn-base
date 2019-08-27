@@ -1,0 +1,14 @@
+.left_menu{
+    width: 200px;
+    background-color: #1E9FFF;
+}
+.main_content{
+    padding-left: 200px;
+}
+.top_header{
+    height: 70px;
+    background-color: white;
+}
+iframe{
+    height: calc(100% - 70px);
+}

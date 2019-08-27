@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+  <link rel="stylesheet" href="lib/layui-1.0.9/build/css/layui.css">
+</head>
+<body>
+
+
+</body>
+<script src="lib/jquery-1.9.1.min.js"></script>
+<script src="lib/layui-1.0.9/build/layui.js"></script>
+</html>

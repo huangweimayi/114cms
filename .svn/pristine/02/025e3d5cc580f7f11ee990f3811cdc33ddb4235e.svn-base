@@ -1,0 +1,301 @@
+var nameArr = []
+var newArr = []
+var id = 1
+// 初始化
+$(function () {
+    function parseUrl() {
+        var url = location.href;
+        var i = url.indexOf('?');
+        if (i == -1) return 0;
+        var querystr = url.substr(i + 1);
+        var arr1 = querystr.split('&');
+        var arr2 = new Object();
+        for (i in arr1) {
+            var ta = arr1[i].split('=');
+            arr2[ta[0]] = ta[1];
+        }
+        return arr2;
+    }
+
+    var v = parseUrl()
+    switch (Number(v.id)) {
+        case 2:
+            //待商家指派
+            $('#suerBtn').html('分配工程师')
+            id = v.id
+            break;
+        case 3:
+            // 待商家发出
+            $('#suerBtn').html('确认出发')
+
+            id = v.id
+            $("#newEngineer").removeClass("D_none");
+            break;
+        case 4:
+            // 带到达
+            $('#suerBtn').html('确认到达')
+            id = v.id
+            $("#newEngineer").addClass("D_none");
+            break;
+        case 5:
+            // 带服务
+            $('#suerBtn').html('开始服务')
+            id = v.id
+            break;
+        case 6:
+            // 待确认
+            $('#suerBtn').html('确认完成服务')
+            $('#D_Bcj').removeClass('D_none')
+            id = v.id
+            //是否显示取消订单按钮
+            $('#cancelBtn').addClass('D_none')
+            break;
+        case 7:
+            // 待补差价
+            $('#suerBtn').html('确认支付')
+            $('#D_Bcj').removeClass('D_none')
+            id = v.id
+            //是否显示取消订单按钮
+            $('#cancelBtn').addClass('D_none')
+            break;
+        case 8:
+            // 待回访
+            $('#suerBtn').html('确认回访')
+            $('#D_Bcj').removeClass('D_none')
+            id = v.id
+            //是否显示取消订单按钮
+            $('#cancelBtn').addClass('D_none')
+            break;
+        case 9:
+            // 已完成
+            $('#suerBtn').addClass('D_none')
+            id = v.id
+            //是否显示取消订单按钮
+            $('#cancelBtn').addClass('D_none')
+            $('#D_Bcj').removeClass('D_none')
+            break;
+        case 10:
+            // 已取消订单
+            $('#suerBtn').addClass('D_none')
+            id = v.id
+            //是否显示取消订单按钮
+            $('#cancelBtn').addClass('D_none')
+            $('#D_Bcj').removeClass('D_none')
+            break;
+        case 11:
+            // 异常订单
+            $('#suerBtn').html('手动重选服务')
+            $('#D_Qd').addClass('D_none')
+            id = v.id
+            break;
+        default:
+            //待商家接单
+            $('#D_Qd').addClass('D_none')
+            $('#oneBtn').removeClass('D_none')
+            $('#twoBtn').removeClass('D_none')
+            break
+    }
+});
+layui.use('laydate', function () {
+    var laydate = layui.laydate;
+    // laydate.skin(lib)
+
+    var start = {
+        format: 'YYYY-MM-DD hh:mm:ss',
+        istime: true,
+        issure: false,
+        isclear: false,
+        fixed: true
+    };
+    document.querySelector('#test5').onclick = function () {
+        start.elem = this;
+        laydate(start);
+    }
+
+})
+// 打开弹框
+$('#oneBtn').bind('click', function () {
+    $("#D_none").removeClass("D_none");
+    $('.D_name').each(function () {
+        $(this).text()
+        nameArr.push($(this).text())
+    });
+    $('.nameInput').eq(0).val(nameArr[0])
+    $('.nameInput').eq(1).val(nameArr[4])
+    $('.nameInput').eq(2).val(nameArr[1])
+    $('.nameInput').eq(3).val(nameArr[2])
+    $('.nameInput').eq(4).val(nameArr[3])
+    nameArr = []
+})
+$('#D_tjbtn').bind('click', function (event) {
+    event.preventDefault();
+    $('.nameInput').each(function () {
+        newArr.push($(this).val())
+    })
+    $('.D_name').eq(0).text(newArr[0])
+    $('.D_name').eq(1).text(newArr[2])
+    $('.D_name').eq(2).text(newArr[3])
+    $('.D_name').eq(3).text(newArr[4])
+    $('.D_name').eq(4).text(newArr[1])
+    $("#D_none").addClass("D_none");
+    newArr = []
+})
+$('#twoBtn').bind('click', function () {
+    $("#D_none1").removeClass("D_none");
+    $('.bjInput').val($('#D_bzContent').html())
+})
+$('#D_tjbtn1').bind('click', function (event) {
+    event.preventDefault();
+    $('#D_bzContent').html($('.bjInput').val())
+    $("#D_none1").addClass("D_none");
+
+})
+// 关闭弹框
+$('#I_con').bind('click', function () {
+    $("#D_none").addClass("D_none");
+})
+$('#I_con1').bind('click', function () {
+    $("#D_none1").addClass("D_none");
+})
+// 选择工程师时复选变单选
+$("input[name='SingleElection']").on('click', function () {
+    // 取消全部checkbox的选中
+    $("input[name='SingleElection']").prop("checked", false);
+    // 设置选中当前
+    $(this).prop("checked", true);
+});
+//重选服务
+$("input[name='D_Choose']").on('click', function () {
+    // 取消全部checkbox的选中
+    $("input[name='D_Choose']").prop("checked", false);
+    // 设置选中当前
+    $(this).prop("checked", true);
+});
+$('#I_Engineer').bind('click', function () {
+    $('#Engineer').addClass('D_none')
+
+})
+// 确认订单与 分配工程师、
+$('#suerBtn').bind('click', function () {
+
+    switch (Number(id)) {
+        case 1:
+            window.location.href = "./OrderDetails.html?id=2";
+            break;
+        case 2:
+            $('#Engineer').removeClass('D_none')
+
+            break;
+        case 3:
+            window.location.href = "./OrderDetails.html?id=4";
+            break;
+        case 4:
+            window.location.href = "./OrderDetails.html?id=5";
+            break;
+        case 5:
+            window.location.href = "./OrderDetails.html?id=6";
+            break;
+        case 6:
+            $('#over').removeClass('D_none')
+            break;
+        case 7:
+            // $('#over').removeClass('D_none')
+            window.location.href = "./OrderDetails.html?id=8"
+            break;
+        case 8:
+            $('#D_Win').removeClass('D_none')
+            break;
+        case 11:
+            $('#D_Ycover').removeClass('D_none')
+            break;
+    }
+
+})
+// 从新分配工程师
+$('#newEngineer').bind('click', function () {
+    $('#Engineer').removeClass('D_none')
+})
+//跳转带出发
+$('#EngineerBtn').bind('click', function () {
+    switch (Number(id)) {
+        case 2:
+            window.location.href = "./OrderDetails.html?id=3";
+            break;
+        case 3:
+            $('#Engineer').addClass('D_none')
+    }
+
+})
+// 新增
+$('#D_FwBtn').bind('click', function () {
+    var html = ' <tr>\n' +
+        '                            <td>\n' +
+        '                                <input class="D_FwCheck" type="checkbox" value="配件" title="配件"/>\n' +
+        '                                <span>配件</span>\n' +
+        '                            </td>\n' +
+        '                            <td><input class="D_Ipt" type="text"></td>\n' +
+        '                            <td><input class="D_Ipt" type="text"></td>\n' +
+        '                            <td><i class="D_IconFw layui-icon ">&#x1006;</i></td>\n' +
+        '                        </tr>'
+    $('#D_addTable').append(html)
+})
+// 删除j节点
+$('#D_addTable').on('click', 'i', function () {
+    $(this).parent().parent().remove()
+})
+// 关闭服务弹框
+$('#O_Engineer').bind('click', function () {
+    $('#over').addClass('D_none')
+})
+//确认完成弹框按钮
+$('#D_child').bind('click', function () {
+    window.location.href = "./OrderDetails.html?id=7";
+})
+//评星
+// var inputBox = $('.comments-list').find('input');
+$('.eval-star span').raty({
+    click: function (score) {
+        console.log(score)
+        $('.eval-star input[name="star"]').val(score);
+    },
+    starOff: '../image/star_b_grray.jpg',
+    starOn: '../image/star_b_red.jpg',
+    starHalf: '../image/star_b_helf.jpg',
+    half: true
+});
+
+//设置input,textarea默认值
+if (!('placeholder' in document.createElement('input'))) {
+    $('input[placeholder],textarea[placeholder]').each(function () {
+        var that = $(this),
+            text = that.attr('placeholder');
+        // console.log(text);
+        if (that.val() === "") {
+            that.val(text).addClass('placeholder');
+        }
+        that.focus(function () {
+            if (that.val() === text) {
+                that.val("").removeClass('placeholder');
+            }
+        }).blur(function () {
+            if (that.val() === "") {
+                that.val(text).addClass('placeholder');
+            }
+        }).closest('form').submit(function () {
+            if (that.val() === text) {
+                that.val('');
+            }
+        });
+    });
+}
+$('#cancelBtn').bind('click', function () {
+    window.location.href = "./OrderDetails.html?id=9";
+})
+//确认完成
+$('.sbmit').bind('click', function () {
+    window.location.href = "./OrderDetails.html?id=10";
+})
+// 暂时跳转异常页面
+$('#close').bind('click', function () {
+    window.location.href = "./OrderDetails.html?id=11";
+})

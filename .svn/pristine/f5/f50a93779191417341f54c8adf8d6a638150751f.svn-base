@@ -1,0 +1,36 @@
+layui.use(['form','layer','laydate'], function(){
+  var layDate = layui.laydate;
+  var form = layui.form();
+  var layer = layui.layer;
+  var events = {
+    init:function () {
+      this.domEvent()
+    },
+    domEvent:function () {
+      //监听提交
+      form.on('submit(formDemo)', function(data){
+        layer.msg(JSON.stringify(data.field));
+        return false;
+      });
+      //日期选择
+      var start = {
+        min: laydate.now(),
+        max: '9999-06-16 23:59:59',
+        istoday: false,
+        choose: function(date){
+          console.log(_mm.isToday(date))
+        }
+      };
+      $('#begin_time').on('click',function () {
+        start.elem = $(this)[0];
+        laydate(start);
+      });
+    },
+    ajaxDo:{
+
+    }
+  };
+  events.init();
+
+
+});

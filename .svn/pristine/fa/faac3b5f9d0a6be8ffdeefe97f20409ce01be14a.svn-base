@@ -1,0 +1,46 @@
+/*// 值班信息
+var _duty = {
+    // 获值班信息列表
+    getDutyPage : function(data,resolve,reject){
+        _mm.request({
+            url     : _mm.getServerUrl('/duty/getDutyPage?'+_mm.setUrlParam(data)),
+            method  : 'GET',
+            success : resolve,
+            error   : reject
+        });
+    },
+    // 导入
+    importData : function(data,resolve,reject){
+        _mm.requestFile({
+            url     : _mm.getServerUrl('/duty/importData'),
+            data    : data,
+            method  : 'POST',
+            success : resolve,
+            error   : reject
+        });
+    },
+    // 编辑值班信息
+    updateDuty : function(data,resolve,reject){
+        _mm.request({
+            url     : _mm.getServerUrl('/duty/updateDuty'),
+            data    : data,
+            method  : 'POST',
+            success : resolve,
+            error   : reject
+        });
+    },
+};*/
+var _hw = {
+  // 登录
+  login : function(data,resolve,reject){
+    _mm.request({
+      url     : _mm.getServerUrl('/manage114/login'),
+      data    : JSON.stringify(data),
+      method  : 'POST',
+      success : resolve,
+      error   : reject
+    });
+  },
+
+}
+

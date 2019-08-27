@@ -1,0 +1,215 @@
+var priceArr = [
+  {
+    min:0,
+    max:30
+  },
+  {
+    min:30,
+    max:50
+  },
+  {
+    min:50,
+    max:100
+  },
+  {
+    min:100,
+    max:150
+  },
+  {
+    min:150,
+    max:300
+  },
+  {
+    min:300
+  }
+]
+layui.use(['form','layer','laydate'], function(){
+  var layDate = layui.laydate;
+  var form = layui.form();
+  var layer = layui.layer;
+  var events = {
+    init:function () {
+      this.domEvent();
+      this.ajaxDo.categorySelect($('#category1'),0);
+    },
+    infor:{
+      category1:[],
+      category2:[],
+      category3:[],
+      addInfo:{
+        category_id:''
+      }
+
+    },
+    domEvent:function () {
+      var _top = this;
+      //监听提交
+      form.on('submit(formDemo)', function(data){
+        layer.msg(JSON.stringify(data.field));
+        return false;
+      });
+      //日期选择
+      var start = {
+        min: laydate.now(),
+        max: '9999-06-16 23:59:59',
+        istoday: false,
+        choose: function(date){
+          getHalfHours(_mm.isToday(date))
+        }
+      };
+      //日历渲染
+      $('#begin_time').on('click',function () {
+        start.elem = $(this)[0];
+        laydate(start);
+      });
+      //半小时时间渲染
+      function getHalfHours(isToday) {
+        var arrHalf = [
+          '00:00',
+          '00:30',
+          '01:00',
+          '01:30',
+          '02:00',
+          '02:30',
+          '03:00',
+          '03:30',
+          '04:00',
+          '04:30',
+          '05:00',
+          '05:30',
+          '06:00',
+          '06:30',
+          '07:00',
+          '07:30',
+          '08:00',
+          '08:30',
+          '09:00',
+          '09:30',
+          '10:00',
+          '10:30',
+          '11:00',
+          '11:30',
+          '12:00',
+          '12:30',
+          '13:00',
+          '13:30',
+          '14:00',
+          '14:30',
+          '15:00',
+          '15:30',
+          '16:00',
+          '16:30',
+          '17:00',
+          '17:30',
+          '18:00',
+          '18:30',
+          '19:00',
+          '19:30',
+          '20:00',
+          '20:30',
+          '21:00',
+          '21:30',
+          '22:00',
+          '22:30',
+          '23:00',
+          '23:30'
+        ];
+        var h = 0,arr;
+        if(isToday){
+          h = new Date().getHours();
+          var m = new Date().getMinutes();
+          if(m>29){
+            arr = arrHalf.splice(h*2+2,arrHalf.length-1)
+          }else{
+            arr = arrHalf.splice(h*2+1,arrHalf.length-1)
+          }
+        }else{
+          arr = arrHalf
+        }
+        var strInit = '<option value=""></option>';
+        $.each(arr,function (i, v) {
+          strInit += '<option value="'+v+'">'+v+'</option>'
+        });
+        $('#halfTime').html(strInit);
+        form.render('select');
+      }
+      //手动选择的弹窗
+      $('.chooseService').on('click',function (e) {
+        e.stopPropagation();
+        var content = $('#chooseLayer')[0].innerHTML;
+        layer.open({
+          type: 1,
+          title:'手动选择',
+          area: ['500px', 'auto'],
+          content: content, //这里content是一个普通的String
+          success:function (e) {
+
+
+          }
+        });
+      });
+
+      //change分类
+      function getcategory(dom,num,val) {//分类赋值
+        if(num != 3) {
+          _top.ajaxDo.categorySelect(dom,num,val);
+        }
+        _top.infor.addInfo.category_id = val;
+      }
+      form.on('select(category1)', function(data){
+        var val = data.value;
+        getcategory($('#category2'),1,val)
+      });
+      form.on('select(category2)', function(data){
+        var val = data.value;
+        getcategory($('#category3'),2,val)
+      });
+      form.on('select(category3)', function(data){
+        var val = data.value;
+        getcategory($('#category3'),3,val)
+      });
+
+      //查询用户信息
+      $('#mobile').on('change',function () {
+        var val = $(this).value;
+        _top.ajaxDo.userInfo('158821313109')
+      });
+    },
+    ajaxDo:{
+      //获取用户信息
+      userInfo:function(mobile){
+        _hw.userInfo({mobile:mobile},function(res){
+          var _data = res.data;
+          console.log(_data)
+        },function(errMsg){});
+      },
+      //获取服务分类
+      categorySelect:function (dom,num,pid) {
+        var str = '<option value=""></option>';
+        _hw.categorySelect({pid:pid},function(res){
+          var _data = res.data;
+          switch (num) {
+            case '0':
+              events.infor.category1 = _data;
+              break;
+            case '1':
+              events.infor.category2 = _data;
+              break;
+            case '2':
+              events.infor.category3 = _data;
+              break;
+          }
+          $.each(_data,function (i, v) {
+            str += '<option value="'+v.id+'" data-pid="'+v.pid+'">'+v.show_name+'</option>'
+          });
+          dom.html(str);
+          console.log(1)
+          form.render('select');
+        },function(errMsg){});
+      }
+    }
+  };
+  events.init();
+
+
+});

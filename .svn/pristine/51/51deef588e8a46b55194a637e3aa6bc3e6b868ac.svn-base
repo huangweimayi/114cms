@@ -1,0 +1,158 @@
+.D_title{
+  padding:10px 0px ;
+    border-bottom:1px solid #000000 ;
+    font-size: 25px;
+    font-weight: 600;
+    width: 1000px;
+    margin: auto;
+}
+.D_content_one{
+    float:left;
+}
+.D_content_two{
+    float:right;
+}
+.fs20{
+   font-size: 20px;
+}
+.D_of{
+    overflow: hidden;
+}
+.fw{
+    font-weight: 600;
+}
+.D_fixed{
+    position: fixed;
+}
+.border{
+    border-bottom: 1px solid #000000;
+}
+#D_center,#D_center1,#D_center2,#D_3,#D_4,#D_5,#D_6,#D_7,#X_1,#X_2,#X_3{
+    text-align: center;
+}
+.D_line{
+    display: inline-block;
+    vertical-align:top
+}
+.D_top{
+    vertical-align:top
+}
+.auto{
+    margin: auto;
+}
+#D_body{
+    margin-top: 40px;
+    margin-left: 40px;
+}
+.D_detail{
+    width: 1000px;
+    margin: auto;
+    border-bottom: 5px solid darkgray;
+    margin-top: 40px;
+}
+.D_add{
+    width: 1000px;
+    padding-bottom:10px ;
+}
+.D_border{
+    border: none;
+
+}
+.D_content{
+    overflow: hidden;
+    margin-bottom: 20px;
+}
+
+.D_content_one div,.D_content_two div{
+    padding: 10px;
+}
+.D_content_one div span:nth-child(2),.D_content_two div span:nth-child(2){
+    margin-left: 10px;
+}
+
+.D_w{
+    width: 400px;
+}
+.D_img{
+    width: 200px;
+    height: 200px;
+    margin-bottom: 5px;
+    background: #1E9FFF;
+}
+.D_imgW{
+    width: 815px;
+}
+#D_cc>.layui-table,#D_fw>.layui-table,#D_choose>.layui-table{
+    text-align: center;
+    width: 100%;
+}
+.D_bottom{
+    margin-bottom: 40px;
+}
+.D_label{
+    width: 112px;
+}
+.D_f{
+    width: 100%;
+    height: 100%;
+    background: rgba(43, 46, 55, 0.42);
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    display: table;
+    display: table-cell;
+    vertical-align: middle
+}
+.D_cet{
+    width: 616px;
+    background: white;
+    margin: auto;
+    margin-top: 10%;
+    padding-bottom: 20px;
+}
+.D_bj{
+    background-color: #009688;
+    padding: 10px 0px;
+    color: white;
+    overflow: hidden;
+    /*font-weight: bold;*/
+}
+.D_bj span,.D_bj i{
+     display: inline-block;
+ }
+.D_bj span{
+    font-size: 25px;
+    margin-left: 20px
+}
+.D_bj i{
+    margin-right: 20px;
+    font-size: 25px;
+    cursor: pointer;
+}
+.D_none{
+    display: none;
+    opacity: 0;
+}
+.D_ridio{
+    width: 15px;
+    height: 15px;
+}
+.newEngineer{
+    height: 38px;
+    line-height: 38px;
+    padding: 0 18px;
+    background-color: #009688;
+    color: #fff;
+    white-space: nowrap;
+    text-align: center;
+    font-size: 14px;
+    border: none;
+    border-radius: 2px;
+    cursor: pointer;
+    opacity: .9;
+    filter: alpha(opacity=90);
+    margin-left: 10px;
+    border: none;
+    outline: none;
+}

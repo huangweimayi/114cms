@@ -1,0 +1,378 @@
+var priceArr = [
+  [0,30],
+  [30,50],
+  [50,100],
+  [100,150],
+  [150,300],
+  [300,0]
+];
+layui.use(['form','layer','laydate'], function(){
+  var layDate = layui.laydate;
+  var form = layui.form();
+  var layer = layui.layer;
+  var events = {
+    init:function () {
+      this.domEvent();
+      this.ajaxDo.categorySelect($('#category1'),0);
+      this.ajaxDo.typeSelect();
+    },
+    infor:{
+      category1:[],
+      category2:[],
+      category3:[],
+      addressArr:[],
+      user:{},
+      min_number:0,
+      addInfo:{
+        category_id:'',
+        street_id:'',
+        user_mobile:'',
+        user_remark:'',
+        type:'',
+        price:'',
+        service_keyword:'',
+        mobile:'',
+        contact_name:'',
+        address:'',
+        start_time:'',
+        end_time:'',
+        service_store_id:'',
+        sku_id:'',
+        quantity:'',
+        remark:'',
+      }
+
+    },
+    domEvent:function () {
+      var _top = this;
+      //监听提交
+      form.on('submit(formDemo)', function(data){
+        layer.msg(JSON.stringify(data.field));
+        return false;
+      });
+      //日期选择
+      var start = {
+        min: laydate.now(),
+        max: '9999-06-16 23:59:59',
+        istoday: false,
+        choose: function(date){
+          getHalfHours(_mm.isToday(date))
+        }
+      };
+      //日历渲染
+      $('#begin_time').on('click',function () {
+        start.elem = $(this)[0];
+        laydate(start);
+      });
+      //半小时时间渲染
+      function getHalfHours(isToday) {
+        var arrHalf = [
+          '00:00',
+          '00:30',
+          '01:00',
+          '01:30',
+          '02:00',
+          '02:30',
+          '03:00',
+          '03:30',
+          '04:00',
+          '04:30',
+          '05:00',
+          '05:30',
+          '06:00',
+          '06:30',
+          '07:00',
+          '07:30',
+          '08:00',
+          '08:30',
+          '09:00',
+          '09:30',
+          '10:00',
+          '10:30',
+          '11:00',
+          '11:30',
+          '12:00',
+          '12:30',
+          '13:00',
+          '13:30',
+          '14:00',
+          '14:30',
+          '15:00',
+          '15:30',
+          '16:00',
+          '16:30',
+          '17:00',
+          '17:30',
+          '18:00',
+          '18:30',
+          '19:00',
+          '19:30',
+          '20:00',
+          '20:30',
+          '21:00',
+          '21:30',
+          '22:00',
+          '22:30',
+          '23:00',
+          '23:30'
+        ];
+        var h = 0,arr;
+        if(isToday){
+          h = new Date().getHours();
+          var m = new Date().getMinutes();
+          if(m>29){
+            arr = arrHalf.splice(h*2+2,arrHalf.length-1)
+          }else{
+            arr = arrHalf.splice(h*2+1,arrHalf.length-1)
+          }
+        }else{
+          arr = arrHalf
+        }
+        var strInit = '<option value=""></option>';
+        $.each(arr,function (i, v) {
+          strInit += '<option value="'+v+'">'+v+'</option>'
+        });
+        $('#halfTime').html(strInit);
+        form.render('select');
+      }
+      form.on('select(halfTime)', function(data){
+        var val = data.value,date = $('#begin_time').val();
+        _top.infor.addInfo.start_time = date +' '+val;
+      });
+
+      //change分类
+      function getcategory(dom,num,val) {//分类赋值
+        if(num != 3) {
+          _top.ajaxDo.categorySelect(dom,num,val);
+        }
+        _top.infor.addInfo.category_id = val;
+      }
+      form.on('select(category1)', function(data){
+        var val = data.value;
+        getcategory($('#category2'),1,val)
+      });
+      form.on('select(category2)', function(data){
+        var val = data.value;
+        getcategory($('#category3'),2,val)
+      });
+      form.on('select(category3)', function(data){
+        var val = data.value;
+        getcategory($('#category3'),3,val)
+      });
+
+      //查询用户信息
+      $('#user_mobile').on('change',function () {
+        var val = $(this).value;
+        _top.ajaxDo.userInfo('158821313109')
+      });
+
+      //新增地址按钮
+      $('#addAddr').on('click',function () {
+        $('#isHasUser').show();
+        _top.ajaxDo.areaList($('#city1'))
+      });
+
+      //change类型
+      form.on('select(type)', function(data){
+        _top.infor.addInfo.type = data.value;
+      });
+
+      //改变价格
+      form.on('select(price)', function(data){
+        _top.infor.addInfo.price = priceArr[data.value];
+      });
+
+      //服务地址
+      form.on('select(street_id)', function(data){
+        _top.infor.addInfo.street_id = data.value;
+      });
+
+      //服务城市change
+      function getCity(dom,num,val) {//分类赋值
+        if(num != 3) {
+          _top.ajaxDo.areaList(dom,val);
+        }
+        _top.infor.addInfo.street_id = val;
+      }
+      form.on('select(city1)', function(data){
+        getCity($('#city2'),1,data.value)
+      });
+      form.on('select(city2)', function(data){
+        getCity($('#city3'),2,data.value)
+      });
+      form.on('select(city3)', function(data){
+        getCity($('#city3'),3,data.value);
+        _top.ajaxDo.serviceOne(1)
+      });
+
+      //改变表格数量
+      function changeNum(up){
+        var num = Number($('#s_num').value);
+        if(num > Number(_top.infor.min_number)){
+          if(up){
+            num = num + 1
+          }else{
+            num = num - 1
+          }
+          _top.infor.addInfo.quantity = num;
+          $('#s_num').val(num)
+        }else{
+          tipMsg('低于最小限制！')
+        }
+      }
+      $('#lessNum').on('click',function () {
+        changeNum(0)
+      });
+      $('#moreNum').on('click',function () {
+        changeNum(1)
+      });
+
+      //切换规格
+      form.on('select(sku)', function(data){
+        _top.addInfo.sku_id = data.value
+      });
+
+      //手动选择的弹窗
+      $('.chooseService').on('click',function (e) {
+        e.stopPropagation();
+        var content = $('#chooseLayer')[0].innerHTML;
+        layer.open({
+          type: 1,
+          title:'手动选择',
+          area: ['500px', 'auto'],
+          content: content, //这里content是一个普通的String
+          success:function (e) {
+            _top.ajaxDo.serviceOne()
+          }
+        });
+      });
+    },
+    ajaxDo:{
+      //获取用户信息
+      userInfo:function(mobile){
+        _hw.userInfo({mobile:mobile},function(res){
+          var _data = res.data,
+            addr = _data.address;
+          events.infor.addressArr = addr;
+          events.infor.user = _data;
+          if(addr.length>0){
+            var str = '';
+            $.each(addr,function (i, v) {
+              str += '<option value="'+v.id+'">'+v.username+' '+v.tel+' '+v.full_address+'</option>'
+            });
+            $('#street_id').html(str);
+            form.render('select');
+            $('#isHasUser').hide()
+          }else{
+            $('#isHasUser').show();
+            events.ajaxDo.areaList($('#city1'))
+          }
+        },function(errMsg){});
+      },
+      //获取服务分类
+      categorySelect:function (dom,num,pid) {
+        var str = '<option value=""></option>';
+        _hw.categorySelect({pid:pid},function(res){
+          var _data = res.data;
+          switch (num) {
+            case '0':
+              events.infor.category1 = _data;
+              break;
+            case '1':
+              events.infor.category2 = _data;
+              break;
+            case '2':
+              events.infor.category3 = _data;
+              break;
+          }
+          $.each(_data,function (i, v) {
+            str += '<option value="'+v.id+'" data-pid="'+v.pid+'">'+v.show_name+'</option>'
+          });
+          dom.html(str);
+          form.render('select');
+        },function(errMsg){});
+      },
+      //获取类型
+      typeSelect:function (pid) {
+        var str = '<option value=""></option>';
+        _hw.typeSelect({pid:pid},function(res){
+          var _data = res.data.typeList;
+          $.each(_data,function (i, v) {
+            str += '<option value="'+v.id+'">'+v.name+'</option>'
+          });
+          $('#type').html(str);
+          form.render('select');
+        },function(errMsg){});
+      },
+      //获取服务
+      serviceOne:function (isOne) {
+        var data = {
+          min_price:events.infor.addInfo.price[0],
+          max_price:events.infor.addInfo.price[1],
+          category:events.infor.addInfo.category_id,
+          type:events.infor.addInfo.type,
+          keyword:events.infor.addInfo.service_keyword,
+          street_id:events.infor.addInfo.street_id,
+        };
+        if(data.max_price == 0){
+          delete data.max_price
+        }
+        if(isOne){
+          _hw.serviceOne(data,function(res){
+            var _data = res.data.service;
+            $('#s_title').text(_data.title);
+            $('#s_cate').text(_data.category_text);
+            $('#s_price').text(_data.price);
+            $('#s_num').text(_data.min_number);
+            events.infor.min_number = _data.min_number;
+            events.infor.addInfo.quantity = min_number;
+            events.infor.addInfo.service_store_id = _data.id;
+            var sku = _data.sku_list;
+            var str = '<option value=""></option>';
+            $.each(sku,function (i, v) {
+              str += '<option value="'+v.id+'">'+v.name +' '+v.price+'</option>'
+            });
+            $('#sku').html(str);
+            form.render('select')
+          },function(errMsg){});
+        }
+        else{
+          _hw.serviceList(data,function(res){
+            var list = res.data.list,str = '';
+            $.each(list,function (i, v) {
+              str += '<tr>\n' +
+                '        <td>\n' +
+                '          <label>\n' +
+                '            <input type="radio" name="which" value="'+v.id+'">\n' +
+                '            单选\n' +
+                '          </label>\n' +
+                '        </td>\n' +
+                '        <td>'+v.title+'</td>\n' +
+                '        <td>'+v.price+'</td>\n' +
+                '        <td>'+v.store_name+'</td>\n' +
+                // '        <td>暂无</td>\n' +
+                '      </tr>'
+            })
+            $('#serviceBody').html(str)
+          },function(errMsg){});
+
+        }
+      },
+      //省市县下拉
+      areaList:function (dom,pid) {
+        _hw.areaList({pid:pid},function (res) {
+          var data = res.data.list;
+          var str = '<option value=""></option>';
+          $.each(data,function (i,v) {
+            str += '<option value="'+v.id+'">'+v.title+'</option>'
+          });
+          dom.html(str);
+          form.render('select')
+        },function(errMsg){})
+      }
+    }
+  };
+  events.init();
+
+
+});

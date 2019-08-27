@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="../lib/layui-1.0.9/build/css/layui.css">
+    <link rel="stylesheet" href="../css/orderList.css">
+</head>
+<style>
+</style>
+
+<body>
+    <div class="m_t10 m_b20 m_l5r5 shopmage overflow_h">
+        <p class="w_100 f_l" id="1">待支付</p>
+        <p class="w_100 f_l" id="2">待商家接单</p>
+        <p class="w_100 f_l" id="3">待商家指派</p>
+        <p class="w_100 f_l" id="4">待服务</p>
+        <p class="w_100 f_l" id="5">服务中</p>
+        <p class="w_100 f_l" id="6">待补差价</p>
+        <p class="w_100 f_l" id="7">待回访</p>
+        <p class="w_100 f_l" id="8">订单完成</p>
+        <p class="w_1001 f_l" id="cancel">取消</p>
+    </div>
+    <div class="overflow_h">
+    <div class="f_l">
+    <div class="overflow_h">
+        <div class="f_l">
+            <div class="layui-form-item">
+                <label class="layui-form-label">商家名称：</label>
+                <div class="layui-input-block">
+                    <input type="text" name="title" required lay-verify="required" placeholder="请输入商家名称" autocomplete="off" class="shop_input layui-input">
+                </div>
+            </div>
+        </div>
+        <div class="f_l m_l_32">
+            <div class="layui-form-item f_l">
+                <label class="layui-form-label">服务用户：</label>
+                <div class="layui-input-block">
+                    <input type="text" name="title" required lay-verify="required" placeholder="请输入服务用户" autocomplete="off" class="shop_input layui-input">
+                </div>
+            </div>
+        </div>
+        <!-- <div class="f_l">
+            <div class="layui-form-item f_l">
+                <label class="layui-form-label">坐席编号：</label>
+                <div class="layui-input-block">
+                    <input type="text" name="title" required lay-verify="required" placeholder="请输入坐席编号" autocomplete="off" class="shop_input layui-input">
+                </div>
+            </div>
+        </div> -->
+
+        <div class="f_l m_l_32">
+            <div class="layui-form-item">
+                <label class="layui-form-label">服务城市：</label>
+                <div class="layui-input-block">
+                    <select name="city" lay-verify="required" class="shop_input" style="border:1px solid #E6E6E6;padding:10px;">
+                        <option value="">请选择城市</option>
+                        <option value="0">北京</option>
+                        <option value="1">上海</option>
+                        <option value="2">广州</option>
+                        <option value="3">深圳</option>
+                        <option value="4">杭州</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="overflow_h m_b20 m_t20">
+        <div class="layui-inline">
+            <label class="layui-form-label">下单时间：</label>
+            <div class="layui-input-inline">
+                <input type="text" class="shop_input width_120 T-a" id="start" placeholder="---请选择---">
+            </div>
+        </div>
+        <div class="layui-inline">
+            <label class="w_auto f_l m_t_12">
+                <p class="line"></p>
+            </label>
+            <div class="layui-input-inline">
+                <input type="text" class="shop_input m_l5r5 width_120 T-a" id="end" placeholder="---请选择---">
+            </div>
+        </div>
+        <div class="layui-inline m_l34">
+            <label class="layui-form-label w_auto p_l_0 line_h_24">服务时间：</label>
+            <div class="layui-input-inline">
+                <input type="text" class="shop_input m_l5r5 width_120 T-a" id="start_ser" placeholder="---请选择---">
+            </div>
+        </div>
+        <div class="layui-inline">
+            <label class="w_auto f_l m_t_12">
+                <p class="line"></p>
+            </label>
+            <div class="layui-input-inline">
+                <input type="text" class="shop_input m_l5r5 width_120 T-a" id="end_ser" placeholder="---请选择---">
+            </div>
+        </div>
+        
+    </div>
+  
+    </div>
+    <div class="m_l_60 f_l m_l_32 m_t_30">
+        <p class="sbmit" style="height: 40px;line-height: 40px;">查询</p>
+    </div>
+</div>
+    <table class="layui-table">
+        <!-- <colgroup>
+    <col width="150">
+    <col width="200">
+    <col> -->
+        </colgroup>
+        <thead>
+            <tr>
+                <th>订单号</th>
+                <th>服务产品</th>
+                <th>所属商家</th>
+                <th>服务分类</th>
+                <th>订单状态</th>
+                <th>服务地址</th>
+                <th>订单价格</th>
+                <th>备注</th>
+                <th>操作</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>11心</td>
+                <td>2016-11-29</td>
+                <td>人生就像是一场修行</td>
+                <td>ee</td>
+                <td>4</td>
+                <td>5</td>
+                <td>6</td>
+                <td>7</td>
+                <td>
+                    <span>详细</span>
+                    <span id="reVisit">回访</span>
+                </td>
+            </tr>
+            <tr>
+                <td>22心</td>
+                <td>2016-11-29</td>
+                <td>人生就像是一场修行</td>
+                <td>3</td>
+                <td>rr</td>
+                <td>t</td>
+                <td>g</td>
+                <td>f</td>
+                <td>c</td>
+            </tr>
+        </tbody>
+    </table>
+    <!-- 分页 -->
+    <div id="demo1"></div>
+    <!-- 遮罩层
+  <div class="opsitio" style="display:none;" id="opsitio"></div> -->
+    <!-- 评价弹窗 -->
+    <div id="visit" class="w_h_500" style="display:none;">
+        <div class="m_t6 m_l_24">
+            <div class="text_r">
+                <i class="layui-icon layui-icon-close" style="font-size: 22px;" id="close">&#x1006;</i>
+            </div>
+            <!-- 星星 -->
+            <div class="eval-star">
+                <span class="eval-star_o l_h_30">评分：</span>
+                <input type="hidden" name="star">
+            </div>
+            <form name="form" method="post" action="" class="m_t20 m_b20">
+                <div class="m_t20 m_b20">
+                    <div class="eval-star_o m_b20">服务人员是否按时上门？</div>
+                    <input type="radio" name="radio" value="按时上门" class="v_a" />&nbsp;&nbsp;按时上门
+                    <input type="radio" name="radio" value="没有按时上门" class="v_a m_l_24" />&nbsp;&nbsp;没有按时上门
+                </div>
+                <div class="m_t20 m_b20">
+                    <div class="eval-star_o m_b20">请问本次服务合计收费
+                        <span>112</span>元吗？
+                    </div>
+                    <input type="radio" name="radio1" value="金额一致" class="v_a" />&nbsp;&nbsp;金额一致
+                    <input type="radio" name="radio1" value="金额不一致" class="v_a m_l_24" />&nbsp;&nbsp;金额不一致
+                    <input type="text" placeholder="填写用户实报金额" class="v_a in_put w_90 m_l5r5 T-a" value="">
+                </div>
+                <div class="m_t20 m_b20">
+                    <div class="eval-star_o m_b20">对本次服务是否满意？</div>
+                    <input type="radio" name="radio" value="满意" class="v_a" />&nbsp;&nbsp;满意
+                    <input type="radio" name="radio" value="不满意" class="v_a m_l_24" />&nbsp;&nbsp;不满意
+                </div>
+                <textarea name="desc" placeholder="请填写用户的不满意内容" class="w_290 h_60 p_l_3"></textarea>
+                <p class="sbmit">提交</p>
+            </form>
+        </div>
+    </div>
+    </div>
+    </div>
+    <!-- 遮罩层 -->
+    <div class="opsitio" style="display:none;" id="opsitio"></div>
+</body>
+<script src="../lib/jquery-1.9.1.min.js"></script>
+<script src="../lib/layui-1.0.9/build/layui.js" charset="utf-8"></script>
+<script type="text/javascript" src="../lib/jquery.raty.min.js"></script>
+<script src="../utils/service.js"></script>
+<script src="../utils/util.js"></script>
+<script>
+    $(function () {
+        //回访是否显示
+        // let data = {start_time:'2019-01-16',end_time:'2019-03-19'};
+        let data={};
+        console.log(data)
+        console.log(_hw.cityList)
+        orderList.cityList(data, function (res) {
+            console.log(res)
+// 
+        })
+        //点击选项
+        $(".w_100").click(function (e) {
+            $('.w_100').css({
+                'background': '#F2F2F2',
+                'color': 'black',
+                'border': '1px solid #D2D2D2'
+            })
+            $("#" + e.target.id).css({
+                'background': '#1AA194',
+                'color': 'white',
+                'border': '1px solid #1AA194'
+            })
+            if (e.target.innerText == "待回访" || e.target.innerText == "订单完成") {
+
+            }
+            //点击取消
+            $('#cancel').click(function (e) {
+                $('#cancel').css({
+                    'background': '#1AA194',
+                    'color': 'white',
+                    'border': '1px solid #1AA194'
+                })
+                setTimeout(function () {
+                    $('.w_1001').css({
+                        'background': '#F2F2F2',
+                        'color': 'black',
+                        'border': '1px solid #D2D2D2'
+                    })
+                }, 100)
+                setTimeout(function () {
+                    $('.w_100').css({
+                        'background': '#F2F2F2',
+                        'color': 'black',
+                        'border': '1px solid #D2D2D2'
+                    })
+                }, 200)
+
+            })
+        })
+
+        //日期选择
+        layui.use('laydate', function () {
+            var laydate = layui.laydate;
+            var start = {
+                // min: laydate.now()
+                // ,
+                max: laydate.now(),
+                istoday: false,
+                choose: function (datas) {
+                    end.min = datas; //开始日选好后，重置结束日的最小日期
+                    end.start = datas //将结束日的初始值设定为开始日
+                }
+            };
+
+            var end = {
+                min: laydate.now(),
+                max: '2099-06-16 23:59:59',
+                istoday: false,
+                choose: function (datas) {
+                    start.max = datas; //结束日选好后，重置开始日的最大日期
+                }
+            };
+
+            $('#start').click(function () {
+                start.elem = this;
+                laydate(start);
+            })
+            $('#end').click(function () {
+                end.elem = this
+                laydate(end);
+            })
+            $('#start_ser').click(function () {
+                start.elem = this;
+                laydate(start);
+            })
+            $('#end_ser').click(function () {
+                end.elem = this
+                laydate(end);
+            })
+        });
+
+
+        //------------------------分页-----------------------------------------
+        layui.use(['laypage', 'layer'], function () {
+            var laypage = layui.laypage
+                , layer = layui.layer;
+            // var data = [
+            //       {'dingdanhao':'123','chanpin':'护士圣诞节','suoshu':'你回话','fuwu':'h勼的','dingdan':'完成','dizhi':'d和幅度是否hi苏菲娜爽肤水','jiage':'300','beizhu',''}
+            // ]
+
+            laypage({
+                cont: 'demo1'
+                , pages: 60 //总页数
+                , groups: 5 //连续显示分页数
+            });
+            var data = [];
+            var nums = 5; //每页出现的数据量
+            //模拟渲染
+            // var render = function (data, curr) {
+            //     var arr = []
+            //         , thisData = data.concat().splice(curr * nums - nums, nums);
+            //     layui.each(thisData, function (index, item) {
+            //         arr.push('<li>' + item + '</li>');
+            //     });
+            //     return arr.join('');
+            // };
+
+            //调用分页
+            // laypage({
+            //   cont: 'demo8'
+            //   ,pages: Math.ceil(data.length/nums) //得到总页数
+            //   ,jump: function(obj){
+            // document.getElementById('biuuu_city_list').innerHTML = render(data, obj.curr);
+            // }
+            // });
+        })
+        $('#reVisit').click(function () {
+            //页面层
+            $('#visit').css('display', 'block');
+            $('#opsitio').css('display', 'block');
+        })
+        $('#close').click(function () {
+            $('#visit').css('display', 'none');
+            $('#opsitio').css('display', 'none');
+        })
+        //评星
+        // var inputBox = $('.comments-list').find('input');
+        $('.eval-star span').raty({
+            click: function (score) {
+                console.log(score)
+                $('.eval-star input[name="star"]').val(score);
+            },
+            starOff: '../image/star_b_grray.jpg',
+            starOn: '../image/star_b_red.jpg',
+            starHalf: '../image/star_b_helf.jpg',
+            half: true
+        });
+        //设置input,textarea默认值
+        if (!('placeholder' in document.createElement('input'))) {
+            $('input[placeholder],textarea[placeholder]').each(function () {
+                var that = $(this),
+                    text = that.attr('placeholder');
+                // console.log(text);
+                if (that.val() === "") {
+                    that.val(text).addClass('placeholder');
+                }
+                that.focus(function () {
+                    if (that.val() === text) {
+                        that.val("").removeClass('placeholder');
+                    }
+                }).blur(function () {
+                    if (that.val() === "") {
+                        that.val(text).addClass('placeholder');
+                    }
+                }).closest('form').submit(function () {
+                    if (that.val() === text) {
+                        that.val('');
+                    }
+                });
+            });
+        }
+    })
+
+</script>
+
+</html>
