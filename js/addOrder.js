@@ -388,7 +388,7 @@ layui.use(['form','layer','laydate'], function(){
         _top.ajaxDo.serviceOne();
       });
 
-       //关联账号
+      //关联账号
       $('#relationAcc').on('click',function () {
         $('#rOut').show()
       });
