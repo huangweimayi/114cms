@@ -505,7 +505,7 @@ layui.use(['form','layer','laydate'], function(){
       addressSelect:function(addr){
         var str = '<option></option>';
         var deObj = null;
-        if(addr.length>0){
+        if(addr && addr.length>0){
           $.each(addr,function (i, v) {
             var strCheck = '';
             if(v.is_default == 1){
@@ -552,6 +552,7 @@ layui.use(['form','layer','laydate'], function(){
             $('#mobile').val(_data.mobile);
             events.infor.addInfo.mobile = _data.mobile;
             if(addr&&addr.length>0){
+              events.ajaxDo.areaList($('#city1'));
               $('#isHasUser').hide()
             }else{
               // $('#isHasUser').show();
