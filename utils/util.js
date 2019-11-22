@@ -169,11 +169,11 @@ var _mm = {
   },
   //统一登录处理
   goToLogin: function(url){
-    window.top.location.href = url || "./login.html" ;
+    window.top.location.href = url || "./login_old.html" ;
   },
   //跳回首页
   goHome: function(){
-    window.top.location.href =  url || './index.html';
+    window.top.location.href =  url || './index_old.html';
   },
   //判断日期是否为今天
   isToday:function (str){

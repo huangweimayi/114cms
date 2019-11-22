@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8">
+  <title>114家管理系统</title>
+  <OBJECT
+      ID = "cspClient"
+      Name = "cspClient"
+      CLASSID  = "clsid:A6A1377B-531E-4999-BE4A-33E988C44B1B"
+      CODEBASE = ""
+      WIDTH = "0"
+      HEIGHT = "0"
+      ALIGN    = "Center"
+      HSPACE   = "0"
+      VSPACE   = "0"
+      STYLE    = "display:none">
+  </OBJECT>
+  <link rel="stylesheet" href="lib/layui-1.0.9/build/css/layui.css">
+</head>
+<body>
+<div style="text-align: center;padding-top: 20px">
+  <div class="layui-btn" id="login">登录</div>
+</div>
+
+</body>
+<script src="lib/jquery-1.9.1.min.js"></script>
+<script src="lib/layui-1.0.9/build/layui.js"></script>
+<script src="utils/util.js"></script>
+<script src="utils/service.js"></script>
+<script>
+  var events = {
+    init:function () {
+      this.domEvent()
+    },
+    domEvent:function () {
+      var workNo =  cspClient.GetStaffId();
+      $('#login').on('click',function () {
+        var data = {
+          // username:'579204'
+          username:workNo,
+          type:'kefu'
+        };
+        _hw.login(data,function (res) {
+          var _data = res.data;
+          sessionStorage.setItem('token',_data.token);
+          sessionStorage.setItem('user',JSON.stringify(_data.user));
+          tipMsg('登录成功~');
+          setTimeout(function () {
+            window.location.href='index_new.html'
+          },1500)
+        },function (errMsg) {})
+      })
+    }
+  };
+  $(function(){
+    events.init();
+  });
+
+</script>
+</html>
+
