@@ -1,3 +1,4 @@
+<!--
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -75,4 +76,81 @@
     }
   })
 </script>
+</html>
+-->
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html>
+<head>
+
+  <title>ChangeUrl</title>
+
+  <OBJECT
+      ID = "cspClient"
+      Name = "cspClient"
+      CLASSID  = "clsid:A6A1377B-531E-4999-BE4A-33E988C44B1B"
+      CODEBASE = ""
+      WIDTH = "0"
+      HEIGHT = "0"
+      ALIGN    = "Center"
+      HSPACE   = "0"
+      VSPACE   = "0"
+      STYLE    = "display:none">
+  </OBJECT>
+  <script type="text/javascript">
+    function init()
+    {
+      // 主叫号码
+      var callerNo = cspClient.GetCallerNo();
+
+      // 被叫号码
+      var calleeNo = cspClient.GetCalledNo();
+
+      // 流水号
+      var serialNo = cspClient.ExecScript("CSPSC.chfApi.getSerialNo()");
+
+      // 业务代表账号
+      var staffNo = cspClient.GetStaffId();
+
+      // 地市编号
+      var staffCity = cspClient.ExecScript("CSPSC.chfApi.getCityId()");
+
+      // 区号
+      var areaCode = cspClient.ExecScript("CSPSC.chfApi.getAreaCodeByCityId('" + staffCity + "')");
+
+      // 用户地市编号
+      var userCity = cspClient.ExecScript("CSPSC.chfApi.getUserCityId()");
+
+      // 用户级别
+      var userGrade = cspClient.ExecScript("SCPSC.chfApi.getCustLevel()");
+
+      // 用户品牌
+      var userType = cspClient.ExecScript("SCPSC.chfApi.getCustBrand()");
+
+      // 外呼
+      // cspClient.CallOut(5,callerNo,calledNo);
+      //
+      // 转接(displayCallerNo显示号码)
+      // cspClient.TransOut(5, displayCallerNo, telNo, 2, 0, '')
+
+      //转IVR流程（accessCode是接入码）
+      // cspClient.transToIVR(5, 0, accessCode);
+
+      console.log(callerNo)
+      console.log(calleeNo)
+      console.log(serialNo)
+      console.log(staffNo)
+      console.log(staffCity)
+      console.log(areaCode)
+      console.log(userCity)
+      console.log(userGrade)
+      console.log(userType)
+      console.log(userType)
+    }
+  </script>
+</head>
+
+<body onload="init()">
+
+</body>
 </html>
