@@ -100,7 +100,7 @@
   <script type="text/javascript">
     function init()
     {
-      console.log(1)
+      console.log(2)
       // 主叫号码
       var callerNo = cspClient.GetCallerNo();
 
@@ -129,13 +129,13 @@
       var userType = cspClient.ExecScript("SCPSC.chfApi.getCustBrand()");
 
       // 外呼
-      // cspClient.CallOut(5,callerNo,calledNo);
+      cspClient.CallOut(5,callerNo,calledNo);
       //
       // 转接(displayCallerNo显示号码)
-      // cspClient.TransOut(5, displayCallerNo, telNo, 2, 0, '')
+      cspClient.TransOut(5, displayCallerNo, telNo, 2, 0, '')
 
       //转IVR流程（accessCode是接入码）
-      // cspClient.transToIVR(5, 0, accessCode);
+      cspClient.transToIVR(5, 0, accessCode);
 
       console.log(callerNo)
       console.log(calleeNo)
