@@ -49,8 +49,8 @@
 <body>
 <div class="login_out">
   <div class="layui-clear">
-    <div class="f_l active" data-id="new">新系统登录</div>
-    <div class="f_l" data-id="old">老系统登录</div>
+    <div class="f_l active" id="new">新系统登录</div>
+    <div class="f_l" id="old">老系统登录</div>
   </div>
   <div class="l_btn_out">
     <div id="login">登录</div>
@@ -67,7 +67,7 @@
     $(this).addClass('active').siblings('.f_l').removeClass('active')
   });
   $('#login').on('click',function () {
-    var id = $('.active').attr('data-id');
+    var id = $('.active').attr('id');
     if(id === 'new'){
       window.location.href='login_new.html'
     }else{
