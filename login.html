@@ -1,83 +1,3 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>114家管理系统</title>
-  <link rel="stylesheet" href="lib/layui-1.0.9/build/css/layui.css">
-  <style>
-    .body{
-      padding-top: 30px;
-    }
-    .login_out{
-      width: 380px;
-      margin: 0 auto;
-      margin-top: 30px;
-      border: 1px solid #1AA194;
-      padding: 20px;
-
-    }
-    .f_l{
-      float: left;
-      width: 50%;
-      height: 50px;
-      line-height: 50px;
-      font-size: 16px;
-      font-weight: bold;
-      text-align: center;
-      cursor: pointer;
-    }
-    .f_l.active{
-      color: #1AA194;
-      border-bottom: 3px solid #1AA194;
-    }
-    .l_btn_out{
-      height: 100px;
-    }
-    .l_btn_out div{
-      cursor: pointer;
-      width: 80px;
-      height: 30px;
-      line-height: 30px;
-      margin: 85px auto 0 auto;
-      background-color: #1AA194;
-      color: white;
-      text-align: center;
-    }
-  </style>
-
-</head>
-<body>
-<div class="login_out">
-  <div class="layui-clear">
-    <div class="f_l active" id="new">新系统登录</div>
-    <div class="f_l" id="old">老系统登录</div>
-  </div>
-  <div class="l_btn_out">
-    <div id="login">登录</div>
-  </div>
-</div>
-
-
-</body>
-<script src="lib/jquery-1.9.1.min.js"></script>
-<script src="lib/layui-1.0.9/build/layui.js"></script>
-<script src="utils/util.js"></script>
-<script>
-  $('.f_l').on('click',function () {
-    $(this).addClass('active').siblings('.f_l').removeClass('active')
-  });
-  $('#login').on('click',function () {
-    var id = $('.active').attr('id');
-    if(id === 'new'){
-      window.location.href='login_new.html'
-    }else{
-      window.location.href='login_old.html'
-    }
-  })
-</script>
-</html>
-<!--<!DOCTYPE HTML>
-
 <html>
 <head>
 
@@ -95,58 +15,51 @@
       VSPACE   = "0"
       STYLE    = "display:none">
   </OBJECT>
+
   <script type="text/javascript">
     function init()
     {
-      console.log(2)
       // 主叫号码
       var callerNo = cspClient.GetCallerNo();
+      alert(callerNo);
 
       // 被叫号码
       var calleeNo = cspClient.GetCalledNo();
+      alert(callerNo);
 
       // 流水号
       var serialNo = cspClient.ExecScript("CSPSC.chfApi.getSerialNo()");
+      alert(serialNo);
 
       // 业务代表账号
       var staffNo = cspClient.GetStaffId();
+      alert(staffNo);
 
       // 地市编号
       var staffCity = cspClient.ExecScript("CSPSC.chfApi.getCityId()");
+      alert(staffCity);
 
       // 区号
       var areaCode = cspClient.ExecScript("CSPSC.chfApi.getAreaCodeByCityId('" + staffCity + "')");
+      alert(areaCode);
 
       // 用户地市编号
       var userCity = cspClient.ExecScript("CSPSC.chfApi.getUserCityId()");
+      alert(userCity);
 
       // 用户级别
       var userGrade = cspClient.ExecScript("SCPSC.chfApi.getCustLevel()");
+      alert(userGrade);
 
       // 用户品牌
       var userType = cspClient.ExecScript("SCPSC.chfApi.getCustBrand()");
+      alert(userType);
 
-      // 外呼
-      cspClient.CallOut(5,callerNo,calledNo);
-      //
-      // 转接(displayCallerNo显示号码)
-      cspClient.TransOut(5, displayCallerNo, telNo, 2, 0, '')
+      // callid
+      var callid = cspClient.ExecScript("CSPSC.chfApi.getCallingInfo().getSwitchCallId() ");
+      alert(callid);
 
-      //转IVR流程（accessCode是接入码）
-      cspClient.transToIVR(5, 0, accessCode);
 
-      console.log(callerNo)
-      console.log(calleeNo)
-      console.log(serialNo)
-      console.log(staffNo)
-      console.log(staffCity)
-      console.log(areaCode)
-      console.log(userCity)
-      console.log(userGrade)
-      console.log(userType)
-      console.log(userType)
-      console.log(url)
-      return url
     }
   </script>
 </head>
@@ -154,4 +67,5 @@
 <body onload="init()">
 
 </body>
-</html>-->
+</html>
+
